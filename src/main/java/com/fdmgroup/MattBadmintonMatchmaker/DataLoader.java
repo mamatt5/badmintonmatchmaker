@@ -1,42 +1,82 @@
-package com.fdmgroup.MattBadmintonMatchmaker.model;
+package com.fdmgroup.MattBadmintonMatchmaker;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
 
-public class Runner {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.stereotype.Service;
 
-	public static void main(String[] args) {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPA_Database");
-		EntityManager em = emf.createEntityManager();
-		
+import com.fdmgroup.MattBadmintonMatchmaker.dal.BracketRepository;
+import com.fdmgroup.MattBadmintonMatchmaker.dal.GameRepository;
+import com.fdmgroup.MattBadmintonMatchmaker.dal.PlaceRepository;
+import com.fdmgroup.MattBadmintonMatchmaker.dal.PlayerRepository;
+import com.fdmgroup.MattBadmintonMatchmaker.dal.SocialSessionRepository;
+import com.fdmgroup.MattBadmintonMatchmaker.dal.UserRepository;
+import com.fdmgroup.MattBadmintonMatchmaker.model.Bracket;
+import com.fdmgroup.MattBadmintonMatchmaker.model.Game;
+import com.fdmgroup.MattBadmintonMatchmaker.model.Place;
+import com.fdmgroup.MattBadmintonMatchmaker.model.Player;
+import com.fdmgroup.MattBadmintonMatchmaker.model.SocialSession;
+import com.fdmgroup.MattBadmintonMatchmaker.model.User;
+
+
+@Service
+public class DataLoader implements ApplicationRunner {
+	private BracketRepository bracketRepository;
+	private GameRepository gameRepository;
+	private PlaceRepository placeRepository;
+	private PlayerRepository playerRepository;
+	private SocialSessionRepository socialSessionRepository;
+	private UserRepository userRepository;
+	
+	
+
+	@Autowired
+	public DataLoader(BracketRepository bracketRepository, GameRepository gameRepository,
+			PlaceRepository placeRepository, PlayerRepository playerRepository,
+			SocialSessionRepository socialSessionRepository, UserRepository userRepository) {
+		super();
+		this.bracketRepository = bracketRepository;
+		this.gameRepository = gameRepository;
+		this.placeRepository = placeRepository;
+		this.playerRepository = playerRepository;
+		this.socialSessionRepository = socialSessionRepository;
+		this.userRepository = userRepository;
+	}
+
+
+
+
+	@Override
+	public void run(ApplicationArguments args) throws Exception {
+
 		// Bracket entities
 		Bracket bracketA = new Bracket(1, 'A');
 		Bracket bracketB = new Bracket(2, 'B');
 		Bracket bracketC = new Bracket(3, 'C');
 		Bracket bracketD = new Bracket(4, 'D');
 		Bracket bracketE = new Bracket(5, 'E');
-		
+
 		// Place entities
 		Place alphaAuburn = 	new Place("Alpha Badminton Center, Auburn");
 		Place alphaEgerton = 	new Place("Alpha Badminton Center, Egerton");
 		Place roketto = 		new Place("Roketto Badminton Center");
-		
-		
+
+
 		// User dummies
 		User admin1 = new User("angelR", 	"angelR", true); 		// bracket E
 		User admin2 = new User("anjoA", 	"anjoA", true); 		// bracket E
 		User admin3 = new User("karenV", 	"karenV", true); 		// bracket E
-		
+
 		User user1 = new User("mattC", 		"mattC", false); 		// bracket D
 		User user2 = new User("jonahE", 	"jonahE", false); 		// bracket E
 		User user3 = new User("elishaO", 	"elishaO", false); 		// bracket A
 		User user4 = new User("kevinS", 	"kevinS", false);		// bracket C
 		User user5 = new User("jrrR", 		"jrrR", false);			// bracket B
-		
+
 		// Collect all users
 		ArrayList<User> users = new ArrayList<User>();
 		users.add(admin1);
@@ -47,11 +87,11 @@ public class Runner {
 		users.add(user3);
 		users.add(user4);
 		users.add(user5);
-		
 
-		
+
+
 		// Player dummies
-		
+
 		// players that can login
 		Player player1 = new Player("Angel", 	"Ramos", bracketE);
 		Player player2 = new Player("Anjo", 	"Alfon", bracketE);
@@ -61,7 +101,7 @@ public class Runner {
 		Player player6 = new Player("Elisha", 	"Ongcuangco", bracketA);
 		Player player7 = new Player("Kevin", 	"Samson", bracketC);
 		Player player8 = new Player("John Robert", 	"Rolle", bracketB);
-		
+
 		// players that cannot login
 		Player player9 = new Player("Fernan", 	"Bautista", bracketD);
 		Player player10 = new Player("Andrew", 	"Andres", bracketB);
@@ -75,19 +115,19 @@ public class Runner {
 		Player player18 = new Player("Arjan", 	"De Guzman", bracketE);
 		Player player19 = new Player("Christian", "Manga", bracketC);
 		Player player20 = new Player("JV", 		"Paraiso", bracketC);
-		
+
 		// set players to users
 		admin1.setPlayer(player1);
 		admin2.setPlayer(player2);
 		admin3.setPlayer(player3);
-		
+
 		user1.setPlayer(player4);
 		user2.setPlayer(player5);
 		user3.setPlayer(player6);
 		user4.setPlayer(player7);
 		user5.setPlayer(player8);
-		
-		
+
+
 		// Collect all players
 		ArrayList<Player> players = new ArrayList<Player>();
 		players.add(player1);
@@ -110,15 +150,15 @@ public class Runner {
 		players.add(player18);
 		players.add(player19);
 		players.add(player20);
-		
-		
+
+
 		// Social Sessions dummies
 		SocialSession session1 = new SocialSession(LocalDate.of(2023, 12, 22), 5, alphaAuburn);
 		SocialSession session2 = new SocialSession(LocalDate.of(2023, 12, 29), 7, alphaAuburn);
 		SocialSession session3 = new SocialSession(LocalDate.of(2024, 1, 6), 7, alphaEgerton);
 		SocialSession session4 = new SocialSession(LocalDate.of(2024, 1, 13), 6, alphaEgerton);
 		SocialSession session5 = new SocialSession(LocalDate.of(2024, 1, 27), 4, roketto);
-		
+
 		// Collect all sessions
 		ArrayList<SocialSession> sessions = new ArrayList<SocialSession>();
 		sessions.add(session1);
@@ -126,7 +166,7 @@ public class Runner {
 		sessions.add(session3);
 		sessions.add(session4);
 		sessions.add(session5);
-		
+
 		// add players to each social session (make into method next for social session)
 		for (int i = 0 ; i < players.size() ; i++ ) {
 			session1.getPlayers().add(players.get(i));
@@ -135,39 +175,39 @@ public class Runner {
 			session4.getPlayers().add(players.get(i));
 			session5.getPlayers().add(players.get(i));
 		}
-		
-		
+
+
 		// Game dummies
 		Game game1 = new Game( Arrays.asList(player1,player2,player3,player4), session1);
 		Game game2 = new Game( Arrays.asList(player5,player6,player7,player8), session1);
 		Game game3 = new Game( Arrays.asList(player9,player10,player11,player12), session1);
 		Game game4 = new Game( Arrays.asList(player13,player14,player15,player16), session1);
 		Game game5 = new Game( Arrays.asList(player17,player18,player19,player20), session1);
-		
+
 		Game game6 = new Game( Arrays.asList(player1,player2,player3,player4), session2);
 		Game game7 = new Game( Arrays.asList(player5,player6,player7,player8), session2);
 		Game game8 = new Game( Arrays.asList(player9,player10,player11,player12), session2);
 		Game game9 = new Game( Arrays.asList(player13,player14,player15,player16), session2);
 		Game game10 = new Game( Arrays.asList(player17,player18,player19,player20), session2);
-		
+
 		Game game11 = new Game( Arrays.asList(player1,player2,player3,player4), session3);
 		Game game12 = new Game( Arrays.asList(player5,player6,player7,player8), session3);
 		Game game13 = new Game( Arrays.asList(player9,player10,player11,player12), session3);
 		Game game14 = new Game( Arrays.asList(player13,player14,player15,player16), session3);
 		Game game15 = new Game( Arrays.asList(player17,player18,player19,player20), session3);
-		
+
 		Game game16 = new Game( Arrays.asList(player1,player2,player3,player4), session4);
 		Game game17 = new Game( Arrays.asList(player5,player6,player7,player8), session4);
 		Game game18 = new Game( Arrays.asList(player9,player10,player11,player12), session4);
 		Game game19 = new Game( Arrays.asList(player13,player14,player15,player16), session4);
 		Game game20 = new Game( Arrays.asList(player17,player18,player19,player20), session4);
-		
+
 		Game game21 = new Game( Arrays.asList(player1,player2,player3,player4), session5);
 		Game game22 = new Game( Arrays.asList(player5,player6,player7,player8), session5);
 		Game game23 = new Game( Arrays.asList(player9,player10,player11,player12), session5);
 		Game game24 = new Game( Arrays.asList(player13,player14,player15,player16), session5);
 		Game game25 = new Game( Arrays.asList(player17,player18,player19,player20), session5);
-		
+
 		// Collect all game
 		ArrayList<Game> games = new ArrayList<Game>();
 		games.add(game1);
@@ -195,50 +235,44 @@ public class Runner {
 		games.add(game23);
 		games.add(game24);
 		games.add(game25);
-		
+
 		// set lose score to all game as 10, and first two players as winning players
 		for (Game game : games) {
 			game.setLoseScore(10);
 			game.setWinners(game.getPlayers().subList(0, 2));
 		}
 		
-		// Persist all entities
-		em.getTransaction().begin();
+		// Load bracket entities
+		bracketRepository.save(bracketA);
+		bracketRepository.save(bracketB);
+		bracketRepository.save(bracketC);
+		bracketRepository.save(bracketD);
+		bracketRepository.save(bracketE);
 		
-		// Brackets
-		em.persist(bracketA);
-		em.persist(bracketB);
-		em.persist(bracketC);
-		em.persist(bracketD);
-		em.persist(bracketE);
-		
-		// Users
-		for (User user : users) {
-			em.persist(user);
-		}
-		
-		// Players
+		// Load player entities
 		for (Player player : players) {
-			em.persist(player);
+			playerRepository.save(player);
 		}
-			
-		// Places
-		em.persist(alphaAuburn);
-		em.persist(alphaEgerton);
-		em.persist(roketto);
 		
-		// Social Sessions
+		// Load user entities
+		for (User user : users) {
+			userRepository.save(user);
+		}
+		
+		// Load place entities
+		placeRepository.save(alphaAuburn);
+		placeRepository.save(alphaEgerton);
+		placeRepository.save(roketto);
+		
+		// Load social session entities
 		for (SocialSession session : sessions) {
-			em.persist(session);
+			socialSessionRepository.save(session);
 		}
 		
-		// Games
+		// Load game entities
 		for (Game game : games) {
-			em.persist(game);
+			gameRepository.save(game);
 		}
-		
-		em.getTransaction().commit();
-		
 
 	}
 
