@@ -30,6 +30,11 @@ public class SocialSessionService {
 		this.socialSessionRepository.save(newSession);
 		
 	}
+
+	public void deleteById(int sessionId) {
+		socialSessionRepository.deleteById(sessionId);
+		
+	}
 	
 	
 }

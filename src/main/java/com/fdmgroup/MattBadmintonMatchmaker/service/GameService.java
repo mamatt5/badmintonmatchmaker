@@ -30,6 +30,11 @@ public class GameService {
 		this.gameRepository.save(newGame);
 		
 	}
+
+	public void deleteById(int gameId) {
+		gameRepository.deleteById(gameId);
+		
+	}
 	
 	
 

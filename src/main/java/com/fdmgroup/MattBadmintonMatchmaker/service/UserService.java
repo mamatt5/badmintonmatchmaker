@@ -30,6 +30,11 @@ public class UserService {
 		this.userRepository.save(newUser);
 		
 	}
+
+	public void deleteByUsername(String username) {
+		userRepository.deleteById(username);
+		
+	}
 	
 	
 

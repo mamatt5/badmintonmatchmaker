@@ -31,6 +31,11 @@ public class PlayerService {
 		
 	}
 
+	public void deleteById(int playerId) {
+		playerRepository.deleteById(playerId);
+		
+	}
+
 
 
 }

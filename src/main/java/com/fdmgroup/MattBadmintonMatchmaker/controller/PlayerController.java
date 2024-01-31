@@ -3,6 +3,7 @@ package com.fdmgroup.MattBadmintonMatchmaker.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,5 +37,10 @@ public class PlayerController {
 	public Player createNewPlayer(@RequestBody Player newPlayer) {
 		playerService.save(newPlayer);
 		return playerService.findById(newPlayer.getId());
+	}
+	
+	@DeleteMapping("players/{playerId}")
+	public void deletePlayer(@PathVariable int playerId) {
+		playerService.deleteById(playerId);
 	}
 }

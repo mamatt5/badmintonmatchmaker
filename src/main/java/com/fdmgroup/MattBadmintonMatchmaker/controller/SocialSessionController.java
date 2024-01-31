@@ -3,6 +3,7 @@ package com.fdmgroup.MattBadmintonMatchmaker.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,6 +38,11 @@ public class SocialSessionController {
 	public SocialSession createNewSession(@RequestBody SocialSession newSession) {
 		socialSessionService.save(newSession);
 		return socialSessionService.findById(newSession.getId());
+	}
+	
+	@DeleteMapping("sessions/{sessionId}")
+	public void deleteSession(@PathVariable int sessionId) {
+		socialSessionService.deleteById(sessionId);
 	}
 
 }
