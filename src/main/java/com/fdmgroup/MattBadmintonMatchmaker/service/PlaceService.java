@@ -23,7 +23,13 @@ public class PlaceService {
 	}
 
 	public void save(Place newPlace) {
-		this.placeRepository.save(newPlace);
+		if (this.placeRepository.existsById(newPlace.getId())) {
+			throw new RuntimeException("Place already exists");
+			
+		} else {
+			this.placeRepository.save(newPlace);
+		}
+		
 		
 	}
 	

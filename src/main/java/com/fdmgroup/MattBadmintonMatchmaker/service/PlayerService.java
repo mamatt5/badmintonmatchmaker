@@ -27,12 +27,21 @@ public class PlayerService {
 	}
 
 	public void save(Player newPlayer) {
-		this.playerRepository.save(newPlayer);
-		
+		if (this.playerRepository.existsById(newPlayer.getId())) {
+			throw new RuntimeException("Player already exists");
+			
+		} else {
+			this.playerRepository.save(newPlayer);
+		}
 	}
 
 	public void deleteById(int playerId) {
-		playerRepository.deleteById(playerId);
+		if (this.playerRepository.existsById(playerId)) {
+			playerRepository.deleteById(playerId);
+		} else {
+			throw new RuntimeException("Player does not exist");
+		}
+		
 		
 	}
 

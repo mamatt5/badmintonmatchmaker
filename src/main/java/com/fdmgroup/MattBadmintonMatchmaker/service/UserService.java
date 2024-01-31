@@ -27,12 +27,22 @@ public class UserService {
 	}
 
 	public void save(User newUser) {
-		this.userRepository.save(newUser);
-		
+		if (this.userRepository.existsById(newUser.getUsername())) {
+			throw new RuntimeException("Username already exists");
+			
+		} else {
+			this.userRepository.save(newUser);
+		}
 	}
 
 	public void deleteByUsername(String username) {
-		userRepository.deleteById(username);
+		
+		if (this.userRepository.existsById(username)) {
+			userRepository.deleteById(username);
+			
+		} else {
+			throw new RuntimeException("Username does not exist");
+		}
 		
 	}
 	

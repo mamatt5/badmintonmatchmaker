@@ -27,12 +27,21 @@ public class SocialSessionService {
 	}
 
 	public void save(SocialSession newSession) {
-		this.socialSessionRepository.save(newSession);
-		
+		if (this.socialSessionRepository.existsById(newSession.getId())) {
+			throw new RuntimeException("Session already exists");
+			
+		} else {
+			this.socialSessionRepository.save(newSession);
+		}
 	}
 
 	public void deleteById(int sessionId) {
-		socialSessionRepository.deleteById(sessionId);
+		if (this.socialSessionRepository.existsById(sessionId)) {
+			socialSessionRepository.deleteById(sessionId);
+		} else {
+			throw new RuntimeException("Session does not exist");
+		}
+		
 		
 	}
 	

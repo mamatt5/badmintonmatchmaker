@@ -27,15 +27,23 @@ public class GameService {
 	}
 
 	public void save(Game newGame) {
-		this.gameRepository.save(newGame);
-		
+		if (this.gameRepository.existsById(newGame.getId())) {
+			throw new RuntimeException("Game already exists");
+
+		} else {
+			this.gameRepository.save(newGame);
+		}
 	}
 
 	public void deleteById(int gameId) {
-		gameRepository.deleteById(gameId);
-		
+		if (this.gameRepository.existsById(gameId)) {
+			gameRepository.deleteById(gameId);
+
+		} else {
+			throw new RuntimeException("Game does not exist");
+		}
 	}
-	
-	
+
+
 
 }
