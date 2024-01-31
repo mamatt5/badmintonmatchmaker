@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fdmgroup.MattBadmintonMatchmaker.model.SocialSession;
@@ -29,6 +31,12 @@ public class SocialSessionController {
 	@GetMapping("sessions/{sessionId}")
 	public SocialSession findById(@PathVariable int sessionId) {
 		return socialSessionService.findById(sessionId);
+	}
+	
+	@PostMapping("sessions")
+	public SocialSession createNewSession(@RequestBody SocialSession newSession) {
+		socialSessionService.save(newSession);
+		return socialSessionService.findById(newSession.getId());
 	}
 
 }

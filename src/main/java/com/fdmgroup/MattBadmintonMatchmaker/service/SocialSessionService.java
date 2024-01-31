@@ -25,6 +25,11 @@ public class SocialSessionService {
 	public SocialSession findById(int sessionId) {
 		return this.socialSessionRepository.findById(sessionId).orElseThrow(()-> new RuntimeException("No session with id: " +sessionId));
 	}
+
+	public void save(SocialSession newSession) {
+		this.socialSessionRepository.save(newSession);
+		
+	}
 	
 	
 }

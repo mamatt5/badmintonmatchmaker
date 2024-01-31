@@ -26,6 +26,11 @@ public class PlayerService {
 		return this.playerRepository.findById(playerId).orElseThrow(()-> new RuntimeException("No player with id: " +playerId));
 	}
 
+	public void save(Player newPlayer) {
+		this.playerRepository.save(newPlayer);
+		
+	}
+
 
 
 }

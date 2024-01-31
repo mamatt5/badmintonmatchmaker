@@ -25,6 +25,11 @@ public class GameService {
 	public Game findById(int gameId) {
 		return this.gameRepository.findById(gameId).orElseThrow(()-> new RuntimeException("No game with id: " +gameId));
 	}
+
+	public void save(Game newGame) {
+		this.gameRepository.save(newGame);
+		
+	}
 	
 	
 
