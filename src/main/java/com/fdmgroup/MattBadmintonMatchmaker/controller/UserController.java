@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,6 +37,12 @@ public class UserController {
 	@PostMapping("users")
 	public User createNewUser(@RequestBody User newUser) {
 		userService.save(newUser);
+		return userService.findUsername(newUser.getUsername());
+	}
+	
+	@PutMapping("users")
+	public User updateUser(@RequestBody User newUser) {
+		userService.update(newUser);
 		return userService.findUsername(newUser.getUsername());
 	}
 	

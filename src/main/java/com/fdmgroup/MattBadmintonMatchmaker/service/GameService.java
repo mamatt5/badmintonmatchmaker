@@ -44,6 +44,16 @@ public class GameService {
 		}
 	}
 
+	public void update(Game newGame) {
+		if (this.gameRepository.existsById(newGame.getId())) {
+			this.gameRepository.save(newGame);
+			
+
+		} else {
+			throw new RuntimeException("Invalid Id");
+		}
+	}
+
 
 
 }

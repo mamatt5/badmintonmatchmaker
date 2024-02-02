@@ -45,6 +45,16 @@ public class UserService {
 		}
 		
 	}
+
+	public void update(User newUser) {
+		if (this.userRepository.existsById(newUser.getUsername())) {
+			this.userRepository.save(newUser);
+			
+		} else {
+			throw new RuntimeException("Invalid Username");
+			
+		}
+	}
 	
 	
 

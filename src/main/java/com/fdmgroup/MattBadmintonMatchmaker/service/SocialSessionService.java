@@ -44,6 +44,16 @@ public class SocialSessionService {
 		
 		
 	}
+
+	public void update(SocialSession newSession) {
+		if (this.socialSessionRepository.existsById(newSession.getId())) {
+			this.socialSessionRepository.save(newSession);
+			
+			
+		} else {
+			throw new RuntimeException("Invalid ID");
+		}
+	}
 	
 	
 }

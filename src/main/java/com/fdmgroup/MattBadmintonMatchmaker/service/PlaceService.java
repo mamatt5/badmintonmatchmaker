@@ -32,6 +32,18 @@ public class PlaceService {
 		
 		
 	}
+
+	public void update(Place newPlace) {
+		if (this.placeRepository.existsById(newPlace.getId())) {
+			this.placeRepository.save(newPlace);
+			
+		} else {
+			
+			throw new RuntimeException("Invalid Id");
+		}
+		
+		
+	}
 	
 	
 

@@ -122,6 +122,23 @@ public class ServiceTests {
 	}
 	
 	@Test
+	public void place_service_updates_place() {
+		Place roketto = new Place("Roketto Badminton Center");
+
+		when(placeRepositoryMock.existsById(0)).thenReturn(true);
+		placeService.update(roketto);
+		verify(placeRepositoryMock).save(roketto);
+	}
+	
+	@Test
+	public void place_service_throws_when_updates_place_that_does_not_exist() {
+		Place falsePlace = new Place();
+
+		assertThrows(RuntimeException.class, () -> placeService.update(falsePlace));
+		verify(placeRepositoryMock, times(0)).save(falsePlace);
+	}
+	
+	@Test
 	public void place_service_throws_when_creates_new_place_that_exists() {
 		Place roketto = new Place("Roketto Badminton Center");
 		roketto.setId(1);
@@ -192,6 +209,27 @@ public class ServiceTests {
 
 		playerService.save(player1);
 		verify(playerRepositoryMock, times(1)).save(player1);
+
+	}
+	
+	@Test
+	public void player_service_updates_player() {
+		Bracket bracketE = new Bracket(5, 'E');
+		Player player1 = new Player("Angel", 	"Ramos", bracketE);
+		player1.setId(1);
+
+		when(playerRepositoryMock.existsById(1)).thenReturn(true);
+		playerService.update(player1);
+		verify(playerRepositoryMock).save(player1);
+
+	}
+	
+	@Test
+	public void player_service_throws_when_updates_player_that_does_not_exist() {
+		Player falsePlayer = new Player();
+
+		assertThrows(RuntimeException.class, () -> playerService.update(falsePlayer));
+		verify(playerRepositoryMock, times(0)).save(falsePlayer);
 
 	}
 	
@@ -276,6 +314,23 @@ public class ServiceTests {
 		userService.save(user1);
 
 		verify(userRepositoryMock, times(1)).save(user1);
+	}
+	
+	@Test
+	public void user_service_updates_user() {
+		User user1 = new User("mattC", 		"mattC", false);
+
+		when(userRepositoryMock.existsById("mattC")).thenReturn(true);
+		userService.update(user1);
+		verify(userRepositoryMock).save(user1);
+	}
+	
+	@Test
+	public void user_service_throws_when_updates_user_that_does_not_exist() {
+		User falseUser = new User();
+
+		assertThrows(RuntimeException.class, () -> userService.update(falseUser));
+		verify(userRepositoryMock, times(0)).save(falseUser);
 	}
 	
 	@Test
@@ -372,6 +427,27 @@ public class ServiceTests {
 
 		socialSessionService.save(session5);
 		verify(socialSessionRepositoryMock, times(1)).save(session5);
+
+	}
+	
+	@Test
+	public void social_session_service_updates_session() {
+		Place roketto = new Place("Roketto Badminton Center");
+		SocialSession session5 = new SocialSession(LocalDate.of(2024, 1, 27), 4, roketto);
+		session5.setId(5);
+
+		when(socialSessionRepositoryMock.existsById(5)).thenReturn(true);
+		socialSessionService.update(session5);
+		verify(socialSessionRepositoryMock).save(session5);
+
+	}
+	
+	@Test
+	public void social_session_service_throws_when_updates_session_that_does_not_exist() {
+		SocialSession falseSession = new SocialSession();
+
+		assertThrows(RuntimeException.class, () -> socialSessionService.update(falseSession));
+		verify(socialSessionRepositoryMock, times(0)).save(falseSession);
 
 	}
 	
@@ -502,6 +578,34 @@ public class ServiceTests {
 
 		gameService.save(game6);
 		verify(gameRepositoryMock, times(1)).save(game6);
+	}
+	
+	@Test
+	public void game_service_updates_game() {
+		Bracket bracketE = new Bracket(5, 'E');
+		Place alphaAuburn = 	new Place("Alpha Badminton Center, Auburn");
+
+		Player player1 = new Player("Angel", 	"Ramos", bracketE);
+		Player player2 = new Player("Anjo", 	"Alfon", bracketE);
+		Player player3 = new Player("Karen", 	"Vega", bracketE);
+		Player player4 = new Player("Matt", 	"Chanco", bracketE);
+
+		SocialSession session1 = new SocialSession(LocalDate.of(2024, 1, 27), 4, alphaAuburn);
+
+		Game game6 = new Game( Arrays.asList(player1,player2,player3,player4), session1);
+		game6.setId(6);
+
+		when(gameRepositoryMock.existsById(6)).thenReturn(true);
+		gameService.update(game6);
+		verify(gameRepositoryMock).save(game6);
+	}
+	
+	@Test
+	public void game_service_throws_when_updates_game_that_does_not_exist() {
+		Game falseGame = new Game();
+
+		assertThrows(RuntimeException.class, () -> gameService.update(falseGame));
+		verify(gameRepositoryMock, times(0)).save(falseGame);
 	}
 	
 	@Test

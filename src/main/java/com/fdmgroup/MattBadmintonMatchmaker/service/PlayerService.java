@@ -45,6 +45,16 @@ public class PlayerService {
 		
 	}
 
+	public void update(Player newPlayer) {
+		if (this.playerRepository.existsById(newPlayer.getId())) {
+			this.playerRepository.save(newPlayer);
+			
+		} else {
+			throw new RuntimeException("Invalid ID");
+		}
+		
+	}
+
 
 
 }

@@ -1,6 +1,7 @@
 package com.fdmgroup.MattBadmintonMatchmaker;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.doThrow;
@@ -124,6 +125,14 @@ public class ControllerTests {
 		verify(placeServiceMock).save(roketto);
 	}
 	
+	@Test
+	public void place_controller_updates_place() {
+		Place roketto = new Place("Roketto Badminton Center");
+		
+		placeController.updatePlace(roketto);
+		verify(placeServiceMock, times(1)).update(roketto);
+	}
+	
 	///////////////////////////// Player controller tests /////////////////////////////
 	
 	@Test
@@ -188,6 +197,17 @@ public class ControllerTests {
 		
 		verify(playerServiceMock, times(1)).save(player1);
 		assertEquals(newPlayer, player1);
+		
+	}
+	
+	@Test
+	public void player_controller_updates_player() {
+		Bracket bracketE = new Bracket(5, 'E');
+		Player player1 = new Player("Angel", 	"Ramos", bracketE);
+		player1.setId(1);
+		
+		playerController.updatePlayer(player1);
+		verify(playerServiceMock, times(1)).update(player1);
 		
 	}
 	
@@ -261,6 +281,14 @@ public class ControllerTests {
 		
 		verify(userServiceMock, times(1)).save(user1);
 		assertEquals(newUser, user1);
+	}
+	
+	@Test
+	public void user_controller_updates_user() {
+		User user1 = new User("mattC", 		"mattC", false);
+		
+		userController.updateUser(user1);	
+		verify(userServiceMock, times(1)).update(user1);
 	}
 	
 	@Test
@@ -354,6 +382,16 @@ public class ControllerTests {
 	}
 	
 	@Test
+	public void social_session_controller_updates_session() {
+		Place roketto = new Place("Roketto Badminton Center");
+		SocialSession session5 = new SocialSession(LocalDate.of(2024, 1, 27), 4, roketto);
+		session5.setId(5);
+		
+		socialSessionController.updateSession(session5);
+		verify(socialSessionServiceMock, times(1)).update(session5);
+	}
+	
+	@Test
 	public void social_session_controller_deletes_session_that_exists() {
 		
 		socialSessionController.deleteSession(1);
@@ -442,11 +480,11 @@ public class ControllerTests {
 		when(gameServiceMock.findById(4)).thenReturn(game4);
 		when(gameServiceMock.findById(5)).thenReturn(game5);
 		
-		assertEquals(game1, gameServiceMock.findById(1));
-		assertEquals(game2, gameServiceMock.findById(2));
-		assertEquals(game3, gameServiceMock.findById(3));
-		assertEquals(game4, gameServiceMock.findById(4));
-		assertEquals(game5, gameServiceMock.findById(5));
+		assertEquals(game1, gameController.findById(1));
+		assertEquals(game2, gameController.findById(2));
+		assertEquals(game3, gameController.findById(3));
+		assertEquals(game4, gameController.findById(4));
+		assertEquals(game5, gameController.findById(5));
 	}
 	
 	@Test
@@ -470,6 +508,25 @@ public class ControllerTests {
 		
 		verify(gameServiceMock, times(1)).save(game6);
 		assertEquals(newGame, game6);
+	}
+	
+	@Test
+	public void game_controller_updates_game() {
+		Bracket bracketE = new Bracket(5, 'E');
+		Place alphaAuburn = 	new Place("Alpha Badminton Center, Auburn");
+		
+		Player player1 = new Player("Angel", 	"Ramos", bracketE);
+		Player player2 = new Player("Anjo", 	"Alfon", bracketE);
+		Player player3 = new Player("Karen", 	"Vega", bracketE);
+		Player player4 = new Player("Matt", 	"Chanco", bracketE);
+		
+		SocialSession session1 = new SocialSession(LocalDate.of(2024, 1, 27), 4, alphaAuburn);
+		
+		Game game6 = new Game( Arrays.asList(player1,player2,player3,player4), session1);
+		game6.setId(6);
+
+		gameController.updateGame(game6);
+		verify(gameServiceMock, times(1)).update(game6);
 	}
 	
 	@Test
