@@ -100,7 +100,7 @@ public class DataLoader implements ApplicationRunner {
 		Player player5 = new Player("Jonah", 	"Ecito", bracketE);
 		Player player6 = new Player("Elisha", 	"Ongcuangco", bracketA);
 		Player player7 = new Player("Kevin", 	"Samson", bracketC);
-		Player player8 = new Player("John Robert", 	"Rolle", bracketB);
+		Player player8 = new Player("JRR", 	"Rolle", bracketB);
 
 		// players that cannot login
 		Player player9 = new Player("Fernan", 	"Bautista", bracketD);
