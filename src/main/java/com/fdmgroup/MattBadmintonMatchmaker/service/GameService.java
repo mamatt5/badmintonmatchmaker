@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fdmgroup.MattBadmintonMatchmaker.dal.GameRepository;
+import com.fdmgroup.MattBadmintonMatchmaker.exceptions.DuplicateException;
+import com.fdmgroup.MattBadmintonMatchmaker.exceptions.NotFoundException;
 import com.fdmgroup.MattBadmintonMatchmaker.model.Game;
 
 @Service
@@ -23,12 +25,12 @@ public class GameService {
 	}
 
 	public Game findById(int gameId) {
-		return this.gameRepository.findById(gameId).orElseThrow(()-> new RuntimeException("No game with id: " +gameId));
+		return this.gameRepository.findById(gameId).orElseThrow(()-> new NotFoundException("No game with id: " +gameId));
 	}
 
 	public void save(Game newGame) {
 		if (this.gameRepository.existsById(newGame.getId())) {
-			throw new RuntimeException("Game already exists");
+			throw new DuplicateException("Game already exists");
 
 		} else {
 			this.gameRepository.save(newGame);
@@ -40,7 +42,7 @@ public class GameService {
 			gameRepository.deleteById(gameId);
 
 		} else {
-			throw new RuntimeException("Game does not exist");
+			throw new NotFoundException("Game does not exist");
 		}
 	}
 
@@ -50,7 +52,7 @@ public class GameService {
 			
 
 		} else {
-			throw new RuntimeException("Invalid Id");
+			throw new NotFoundException("Game does not exist");
 		}
 	}
 

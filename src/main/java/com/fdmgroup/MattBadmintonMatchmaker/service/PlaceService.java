@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fdmgroup.MattBadmintonMatchmaker.dal.PlaceRepository;
+import com.fdmgroup.MattBadmintonMatchmaker.exceptions.DuplicateException;
+import com.fdmgroup.MattBadmintonMatchmaker.exceptions.NotFoundException;
 import com.fdmgroup.MattBadmintonMatchmaker.model.Place;
 
 @Service
@@ -24,7 +26,7 @@ public class PlaceService {
 
 	public void save(Place newPlace) {
 		if (this.placeRepository.existsById(newPlace.getId())) {
-			throw new RuntimeException("Place already exists");
+			throw new DuplicateException("Place already exists");
 			
 		} else {
 			this.placeRepository.save(newPlace);
@@ -39,7 +41,7 @@ public class PlaceService {
 			
 		} else {
 			
-			throw new RuntimeException("Invalid Id");
+			throw new NotFoundException("Place does not exist");
 		}
 		
 		

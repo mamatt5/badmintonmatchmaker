@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fdmgroup.MattBadmintonMatchmaker.dal.SocialSessionRepository;
+import com.fdmgroup.MattBadmintonMatchmaker.exceptions.DuplicateException;
+import com.fdmgroup.MattBadmintonMatchmaker.exceptions.NotFoundException;
 import com.fdmgroup.MattBadmintonMatchmaker.model.SocialSession;
 
 @Service
@@ -23,12 +25,12 @@ public class SocialSessionService {
 	}
 
 	public SocialSession findById(int sessionId) {
-		return this.socialSessionRepository.findById(sessionId).orElseThrow(()-> new RuntimeException("No session with id: " +sessionId));
+		return this.socialSessionRepository.findById(sessionId).orElseThrow(()-> new NotFoundException("No session with id: " +sessionId));
 	}
 
 	public void save(SocialSession newSession) {
 		if (this.socialSessionRepository.existsById(newSession.getId())) {
-			throw new RuntimeException("Session already exists");
+			throw new DuplicateException("Session already exists");
 			
 		} else {
 			this.socialSessionRepository.save(newSession);
@@ -39,7 +41,7 @@ public class SocialSessionService {
 		if (this.socialSessionRepository.existsById(sessionId)) {
 			socialSessionRepository.deleteById(sessionId);
 		} else {
-			throw new RuntimeException("Session does not exist");
+			throw new NotFoundException("Session does not exist");
 		}
 		
 		
@@ -51,7 +53,7 @@ public class SocialSessionService {
 			
 			
 		} else {
-			throw new RuntimeException("Invalid ID");
+			throw new NotFoundException("Session does not exist");
 		}
 	}
 	

@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fdmgroup.MattBadmintonMatchmaker.dal.UserRepository;
+import com.fdmgroup.MattBadmintonMatchmaker.exceptions.DuplicateException;
+import com.fdmgroup.MattBadmintonMatchmaker.exceptions.NotFoundException;
 import com.fdmgroup.MattBadmintonMatchmaker.model.User;
 
 @Service
@@ -23,12 +25,12 @@ public class UserService {
 	}
 
 	public User findUsername(String username) {
-		return this.userRepository.findById(username).orElseThrow(()-> new RuntimeException("Username not found"));
+		return this.userRepository.findById(username).orElseThrow(()-> new NotFoundException("Username not found"));
 	}
 
 	public void save(User newUser) {
 		if (this.userRepository.existsById(newUser.getUsername())) {
-			throw new RuntimeException("Username already exists");
+			throw new DuplicateException("Username already exists");
 			
 		} else {
 			this.userRepository.save(newUser);
@@ -41,7 +43,7 @@ public class UserService {
 			userRepository.deleteById(username);
 			
 		} else {
-			throw new RuntimeException("Username does not exist");
+			throw new NotFoundException("Username does not exist");
 		}
 		
 	}
@@ -51,7 +53,7 @@ public class UserService {
 			this.userRepository.save(newUser);
 			
 		} else {
-			throw new RuntimeException("Invalid Username");
+			throw new NotFoundException("Username does not exist");
 			
 		}
 	}
