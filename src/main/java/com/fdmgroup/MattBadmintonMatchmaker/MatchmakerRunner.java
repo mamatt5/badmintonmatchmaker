@@ -7,6 +7,7 @@ import com.fdmgroup.MattBadmintonMatchmaker.model.Player;
 import com.fdmgroup.MattBadmintonMatchmaker.service.MatchmakerService;
 
 // For testing matchmaker service
+// TODO Figure out how to exclude main classes and models from coverage test, since only controllers and services have to be tested.
 public class MatchmakerRunner {
 
 	public static void main(String[] args) {
