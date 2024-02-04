@@ -70,7 +70,7 @@ public class Player {
 
 	public Player() {
 		super();
-		// TODO Auto-generated constructor stub
+		// 
 	}
 
 	@Override

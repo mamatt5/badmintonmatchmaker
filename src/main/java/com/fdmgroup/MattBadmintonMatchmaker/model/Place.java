@@ -31,7 +31,7 @@ public class Place {
 	}
 	public Place() {
 		super();
-		// TODO Auto-generated constructor stub
+		// 
 	}
 
 	
