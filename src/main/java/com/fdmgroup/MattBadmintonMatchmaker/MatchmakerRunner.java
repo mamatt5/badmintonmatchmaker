@@ -6,6 +6,7 @@ import com.fdmgroup.MattBadmintonMatchmaker.model.Bracket;
 import com.fdmgroup.MattBadmintonMatchmaker.model.Player;
 import com.fdmgroup.MattBadmintonMatchmaker.service.MatchmakerService;
 
+// For testing matchmaker service
 public class MatchmakerRunner {
 
 	public static void main(String[] args) {
