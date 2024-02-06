@@ -63,6 +63,16 @@ public class User {
 		return "User [username=" + username + ", password=" + password + ", adminAccess=" + adminAccess + ", player="
 				+ player + "]";
 	}
+
+	public String getRole() {
+		if (this.adminAccess) {
+			return "ADMIN";
+			
+		}else {
+			return "USER";
+		}
+		
+	}
 	
 	
 

@@ -14,13 +14,14 @@ import com.fdmgroup.MattBadmintonMatchmaker.dal.GameRepository;
 import com.fdmgroup.MattBadmintonMatchmaker.dal.PlaceRepository;
 import com.fdmgroup.MattBadmintonMatchmaker.dal.PlayerRepository;
 import com.fdmgroup.MattBadmintonMatchmaker.dal.SocialSessionRepository;
-import com.fdmgroup.MattBadmintonMatchmaker.dal.UserRepository;
+import com.fdmgroup.MattBadmintonMatchmaker.service.UserService;
 import com.fdmgroup.MattBadmintonMatchmaker.model.Bracket;
 import com.fdmgroup.MattBadmintonMatchmaker.model.Game;
 import com.fdmgroup.MattBadmintonMatchmaker.model.Place;
 import com.fdmgroup.MattBadmintonMatchmaker.model.Player;
 import com.fdmgroup.MattBadmintonMatchmaker.model.SocialSession;
 import com.fdmgroup.MattBadmintonMatchmaker.model.User;
+
 
 
 @Service
@@ -30,21 +31,21 @@ public class DataLoader implements ApplicationRunner {
 	private PlaceRepository placeRepository;
 	private PlayerRepository playerRepository;
 	private SocialSessionRepository socialSessionRepository;
-	private UserRepository userRepository;
+	private UserService userService;
 	
 	
 
 	@Autowired
 	public DataLoader(BracketRepository bracketRepository, GameRepository gameRepository,
 			PlaceRepository placeRepository, PlayerRepository playerRepository,
-			SocialSessionRepository socialSessionRepository, UserRepository userRepository) {
+			SocialSessionRepository socialSessionRepository, UserService userService) {
 		super();
 		this.bracketRepository = bracketRepository;
 		this.gameRepository = gameRepository;
 		this.placeRepository = placeRepository;
 		this.playerRepository = playerRepository;
 		this.socialSessionRepository = socialSessionRepository;
-		this.userRepository = userRepository;
+		this.userService = userService;
 	}
 
 
@@ -254,9 +255,10 @@ public class DataLoader implements ApplicationRunner {
 			playerRepository.save(player);
 		}
 		
+		// Change to userService for dataloading for encrypting
 		// Load user entities
 		for (User user : users) {
-			userRepository.save(user);
+			userService.register(user);
 		}
 		
 		// Load place entities

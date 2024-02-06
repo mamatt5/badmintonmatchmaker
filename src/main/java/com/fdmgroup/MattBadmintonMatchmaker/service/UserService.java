@@ -3,6 +3,7 @@ package com.fdmgroup.MattBadmintonMatchmaker.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.fdmgroup.MattBadmintonMatchmaker.dal.UserRepository;
@@ -13,8 +14,15 @@ import com.fdmgroup.MattBadmintonMatchmaker.model.User;
 @Service
 public class UserService {
 	private UserRepository userRepository;
-
+	private PasswordEncoder encoder;
+	
 	@Autowired
+	public UserService(UserRepository userRepository, PasswordEncoder encoder) {
+		super();
+		this.userRepository = userRepository;
+		this.encoder = encoder;
+	}
+	
 	public UserService(UserRepository userRepository) {
 		super();
 		this.userRepository = userRepository;
@@ -33,6 +41,16 @@ public class UserService {
 			throw new DuplicateException("Username already exists");
 			
 		} else {
+			this.userRepository.save(newUser);
+		}
+	}
+	
+	public void register(User newUser) {
+		if (this.userRepository.existsById(newUser.getUsername())) {
+			throw new DuplicateException("Username already exists");
+			
+		} else {
+			newUser.setPassword(encoder.encode(newUser.getPassword()));
 			this.userRepository.save(newUser);
 		}
 	}
