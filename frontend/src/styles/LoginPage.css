@@ -1,0 +1,37 @@
+.loginForm {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-center;
+    margin-bottom: 20px;
+}
+
+.loginForm div {
+    margin-bottom: 10px;
+}
+
+.loginForm p {
+    margin-bottom: 5px;
+}
+
+.loginInput {
+    padding: 8px;
+    width: 200px;
+}
+
+.loginButton {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    width: 100px;
+    align-self: center;
+}
+
+.loginButton:hover {
+    background-color: #0056b3;
+}
+
+.errorMsg {
+    color: rgb(243, 49, 49)
+}

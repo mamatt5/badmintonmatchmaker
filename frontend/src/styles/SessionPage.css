@@ -1,0 +1,54 @@
+.ButtonContainer button {
+    color: #fff;
+    border: solid transparent;
+    cursor: pointer;
+    margin: 5px;
+    font-size: 12px;
+    padding: 5px;
+    align-self: center;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.ButtonContainer button:hover {
+    border: solid;
+    border-color: #fff;
+}
+
+.PlayerCards li {
+    border: solid transparent;
+    border-radius: 5px;
+    padding: 4px;
+    cursor: pointer;
+    margin: 5px;
+    width: 100px;
+    text-align: center;
+    background-color: rgb(166, 73, 253);
+}
+
+.PlayerCards li:hover {
+    border: solid;
+    border-radius: 5px;
+    padding: 4px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.UpdateButton {
+    background-color: rgb(158, 117, 41);
+    margin: 5px;
+    padding: 5px;
+    align-self: center;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.CancelButton {
+    background-color: gray;
+    margin: 5px;
+    padding: 5px;
+    align-self: center;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
