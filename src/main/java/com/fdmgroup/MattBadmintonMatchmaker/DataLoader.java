@@ -255,7 +255,6 @@ public class DataLoader implements ApplicationRunner {
 			playerRepository.save(player);
 		}
 		
-		// Change to userService for dataloading for encrypting
 		// Load user entities
 		for (User user : users) {
 			userService.register(user);
@@ -266,6 +265,7 @@ public class DataLoader implements ApplicationRunner {
 		placeRepository.save(alphaEgerton);
 		placeRepository.save(roketto);
 		
+		// Change to userService for dataloading for encrypting
 		// Load social session entities
 		for (SocialSession session : sessions) {
 			socialSessionRepository.save(session);

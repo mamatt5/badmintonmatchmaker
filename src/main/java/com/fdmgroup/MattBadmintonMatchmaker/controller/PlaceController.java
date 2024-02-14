@@ -3,7 +3,9 @@ package com.fdmgroup.MattBadmintonMatchmaker.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,6 +39,11 @@ public class PlaceController {
 	public List<Place> updatePlace(@RequestBody Place newPlace) {
 		placeService.update(newPlace);
 		return placeService.findAll();
+	}
+	
+	@DeleteMapping("places/{placeId}")
+	public void deletePlace(@PathVariable int placeId) {
+		placeService.deleteById(placeId);
 	}
 
 }

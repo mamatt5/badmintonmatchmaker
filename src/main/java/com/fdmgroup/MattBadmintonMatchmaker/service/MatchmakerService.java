@@ -1,5 +1,6 @@
 package com.fdmgroup.MattBadmintonMatchmaker.service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class MatchmakerService {
 	}
 	
 	public Player[][] generateEvenGames(List<Player> players) {
-		List<Player> playersNotMatched = players;
+		List<Player> playersNotMatched = new ArrayList<Player>(players);
 		int numMatches = Math.floorDiv(players.size(), 4);
 //		System.out.println("Matches to be made: " + numMatches);
 		Player[][] matches = new Player[numMatches][4];

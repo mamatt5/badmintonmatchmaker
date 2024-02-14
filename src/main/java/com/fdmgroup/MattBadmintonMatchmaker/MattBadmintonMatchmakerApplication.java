@@ -12,6 +12,7 @@ public class MattBadmintonMatchmakerApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MattBadmintonMatchmakerApplication.class, args);
+		System.out.println("program has started");
 	}
 
 }

@@ -49,6 +49,11 @@ public class GameController {
 		return gameService.findById(gameId);
 	}
 	
+	@GetMapping("sessions/{sessionId}/games")
+	public List<Game> findBySessionId(@PathVariable int sessionId) {
+		return gameService.findBySessionId(sessionId);
+	}
+	
 	@PostMapping("games")
 	public Game createNew(@RequestBody Game newGame) {
 		gameService.save(newGame);

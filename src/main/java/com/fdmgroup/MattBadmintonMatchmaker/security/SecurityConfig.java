@@ -88,7 +88,7 @@ public class SecurityConfig {
 	public CorsConfigurationSource corsConfigurationSource() {
 		final CorsConfiguration configuration = new CorsConfiguration();
 
-		configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000")); // this is the React/frontend port, not
+		configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173")); // this is the React/frontend port, not
 																					// the java port
 		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
 		configuration.setAllowCredentials(true);

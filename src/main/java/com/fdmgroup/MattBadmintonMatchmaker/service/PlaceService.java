@@ -46,6 +46,16 @@ public class PlaceService {
 		
 		
 	}
+
+	public void deleteById(int placeId) {
+		if (this.placeRepository.existsById(placeId)) {
+			placeRepository.deleteById(placeId);
+
+		} else {
+			throw new NotFoundException("Place does not exist");
+		}
+		
+	}
 	
 	
 
