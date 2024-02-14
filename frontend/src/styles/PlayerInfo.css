@@ -1,0 +1,35 @@
+.PlayerInfo {
+    display: flex;
+    align-self: end;
+    border: #fff;
+    border-style: solid;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.PlayerInfo p {
+    margin-left: 5px;
+    flex-grow: 1;
+}
+
+.PlayerInfo button {
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    margin-left: 5px;
+    margin-right: 5px;
+    font-size: 12px;
+    padding: 3px;
+    width: 50px;
+    height: 25px;
+    align-self: center;
+    border-radius: 5px;
+}
+
+.EditButton {
+    background-color: #007bff;
+}
+
+.DeleteButton {
+    background-color: #ff0000;
+}
