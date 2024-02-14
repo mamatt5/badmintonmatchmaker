@@ -63,6 +63,12 @@ const SessionPage = () => {
         .then(response => {navigate('/socialsessions')})
     }
 
+    const refreshPage = () => {
+        setJoinPlayer(false);
+        setRemovePlayer(false);
+        navigate(`/socialsessions/${sessionid}`)
+    }
+
     return (
         <>
         <div>
@@ -70,8 +76,14 @@ const SessionPage = () => {
             <button style={{backgroundColor: 'blue', marginLeft: '10px'}} onClick={() => navigate(`/socialsessions/${sessionid}/games`)}>
                 Show games</button>
         </div>
-        <h2>Date: {date}</h2>
-        <h2>Court: {place.placeName}</h2>
+        { (!joinPlayer && !removePlayer) &&
+        <>
+            <h2>Date: {date}</h2>
+            <h2>Court: {place.placeName}</h2>
+        </>}
+        {joinPlayer && <h2>Chosen players</h2>}
+        {removePlayer && <h2>Click the names of the players you want to remove from the session</h2>}
+        {}
         <div>
         <ul style={{ listStyle: 'none', display: 'flex', flexWrap: 'wrap' }} className="PlayerCards">
             {removePlayer ? (players.map(player => 
@@ -98,7 +110,7 @@ const SessionPage = () => {
             {joinPlayer &&
                 (
                     <>
-                    <p>Choose players to add to the session</p>
+                    <h3>Available players to add</h3>
                     <ul style={{listStyle: 'none', display: 'flex', flexWrap: 'wrap'}} className='PlayerCards'>
                     {
                         availablePlayers.map(player => 
@@ -108,17 +120,14 @@ const SessionPage = () => {
                             </li>)
                     }
                     </ul>
-                    <button onClick= {() => {updateSession();window.location.reload()}} className='UpdateButton'>Update</button>
+                    <button onClick= {() => {updateSession();refreshPage()}} className='UpdateButton'>Update</button>
                     </>
                 )
             }
             
+            {removePlayer && <button onClick= {() => {updateSession();refreshPage()}} className='UpdateButton'>Update</button>}
 
-
-            {removePlayer && <p>Click the names of the players you want to remove from the session</p>}
-            {removePlayer && <button onClick= {() => {updateSession();window.location.reload()}} className='UpdateButton'>Update</button>}
-
-            {(joinPlayer || removePlayer) && <button onClick={() => window.location.reload()} className='CancelButton'>Cancel</button>}
+            {(joinPlayer || removePlayer) && <button onClick={() => refreshPage()} className='CancelButton'>Cancel</button>}
         </div>
         </>
     )

@@ -6,7 +6,7 @@ const AdminDashboard = () => {
   return (
     <>
     <div>
-      <h1>Hello admin!</h1>
+      <h1>Prookies dashboard</h1>
     </div>
 
     <div>

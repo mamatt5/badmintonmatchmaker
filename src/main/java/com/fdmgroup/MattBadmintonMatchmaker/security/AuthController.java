@@ -26,18 +26,4 @@ public class AuthController {
         return token;
     }
     
-    @GetMapping("example")
-    public String example(Authentication auth) {
-    	System.out.println("name:  " +auth.getName());
-    	System.out.println("princ: " + auth.getPrincipal());
-    	System.out.println("creds: " + auth.getCredentials());
-    	System.out.println(auth.getAuthorities());
-    	return "Hello, " + auth.getName();
-    }
-    
-    @GetMapping("adminonly")
-    public String example() {
-    	return "You must be an admin";
-    }
-    
 }

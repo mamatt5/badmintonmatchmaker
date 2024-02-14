@@ -43,9 +43,7 @@ const SessionGames = () => {
     }
 
     const toggleEditMode = (index) => {
-        console.log(index)
         setEditRow(index === editRow ? -1 : index)
-        console.log(sessionGames[index])
         setId(sessionGames[index].id)
         setPlayers(sessionGames[index].players)
         setWinners(sessionGames[index].winners)
@@ -95,7 +93,11 @@ const SessionGames = () => {
             {editRow == -1 && 
             <div>
                 <h1>Session games</h1>
-                <button onClick={() => createGame()}>Create game</button>
+                <div className='ButtonContainer'>
+                    <button style={{backgroundColor: 'green'}} onClick={() => createGame()}>Create game</button>
+                    <button style={{backgroundColor: 'green'}} onClick={() => generateGames()}>Generate games</button>
+                </div>
+
                 <table>
                     <thead>
                         <tr>
@@ -143,7 +145,6 @@ const SessionGames = () => {
                 </table>
 
                 <div className='ButtonContainer'>
-                <button style={{backgroundColor: 'green'}} onClick={() => generateGames()}>Generate games</button>
                 <button style={{backgroundColor: 'gray'}} onClick={() => navigate(`/socialsessions/${sessionid}`)}>Go back</button>
                 </div>
             </div>}

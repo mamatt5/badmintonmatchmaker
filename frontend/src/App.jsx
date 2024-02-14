@@ -18,27 +18,43 @@ import ManagePlaces from './pages/ManagePlaces.jsx'
 function App() {
   const [bearer, setBearer] = useState("")
 
+  const logout = () => {
+    setBearer('')
+  }
+
   return (
     <>
     <div>
-      <NavigationBar />
+      <NavigationBar logout={logout}/>
     </div>
     
     <div className="container">
     <Routes>
       <Route path="/login" element={<LoginPage bearer={[bearer, setBearer]}/>} />
-      <Route path="/admin/dashboard" element={<AdminDashboard />} />
 
-      <Route path="/players" element={<Players />} />
-      <Route path="/players/add" element={<AddPlayerPage />} />
-      <Route path="/players/edit/:playerid" element={<EditPlayerPage />} />
-      
-      <Route path="/socialsessions" element={<SocialSessions />} />
-      <Route path="/socialsessions/create" element={<AddSessionPage />} />
-      <Route path="/socialsessions/:sessionid" element={<SessionPage />} />
-      <Route path="/socialsessions/:sessionid/games" element={<SessionGames />} />
+      {!!bearer ?
+      (
+        <>
+          <Route path="/admin/dashboard" element={<AdminDashboard />}/>
 
-      <Route path="/places" element={<ManagePlaces />} />
+          <Route path="/players" element={<Players />}/>
+          <Route path="/players/add" element={<AddPlayerPage />}/>
+          <Route path="/players/edit/:playerid" element={<EditPlayerPage />}/>
+
+          <Route path="/socialsessions" element={<SocialSessions />}/>
+          <Route path="/socialsessions/create" element={<AddSessionPage />}/>
+          <Route path="/socialsessions/:sessionid" element={<SessionPage />}/>
+          <Route path="/socialsessions/:sessionid/games" element={<SessionGames />}/>
+
+          <Route path="/places" element={<ManagePlaces />} />
+        </>
+      ) : (
+
+        <Route path="*" element={<LoginPage bearer={[bearer, setBearer]} />} />
+      )
+      }
+
+
     </Routes>
     </div>
 

@@ -2,8 +2,10 @@ import axios from 'axios'
 import React from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const ManagePlaces = () => {
+  const navigate = useNavigate()
   const [places, setPlaces] = useState([])
   const [placeName, setPlace] = useState([])
 
@@ -43,8 +45,9 @@ const ManagePlaces = () => {
       </ul>
 
       <div className='ButtonContainer'>
-        <input required value={placeName} onChange={(e) => setPlace(e.target.value)}/>
-        <button onClick={() => addPlace()}>Add place</button>
+        <input value={placeName} onChange={(e) => setPlace(e.target.value)}/>
+        <button style={{backgroundColor: 'green'}} onClick={() => addPlace()}>Add place</button>
+        <button style={{backgroundColor: 'gray'}} onClick={() => navigate('/admin/dashboard')}>Go back</button>
       </div>
 
     </>
