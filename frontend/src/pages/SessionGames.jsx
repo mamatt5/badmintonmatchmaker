@@ -4,9 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import '../styles/SessionGames.css'
 
-// max players in the game: 4
-// max winners in the game: 2
 const SessionGames = () => {
+    const [errorMessage, setErrorMessage] = useState("")
     const [socialSession, setSocialSession] = useState("")
     const [sessionGames, setSessionGames] = useState([])
     const { sessionid } = useParams()
@@ -23,6 +22,13 @@ const SessionGames = () => {
         loadSession();
         loadSessionGames();
     }, [])
+
+    useEffect(() => {
+        if (errorMessage) {
+            const timer = setTimeout(() => {setErrorMessage("");}, 2000);
+            return () => clearTimeout(timer)
+        }
+    }, [errorMessage])
 
     const loadSession = () => {
         axios.get(`http://localhost:8088/badminton/sessions/${sessionid}`)
@@ -53,8 +59,14 @@ const SessionGames = () => {
     }
 
     const addPlayerToGame = (playerid) => {
-        const updatedGamePlayers = [...players, socialSession.players.find(player => player.id === playerid)]
-        setPlayers(updatedGamePlayers)
+        if (players.length < 4) {
+            const updatedGamePlayers = [...players, socialSession.players.find(player => player.id === playerid)]
+            setPlayers(updatedGamePlayers)
+
+        } else {
+
+            setErrorMessage("Players for game cannot exceed four.")
+        }
     }
 
     const removePlayerFromGame = (playerid) => {
@@ -69,18 +81,34 @@ const SessionGames = () => {
         if (winners.some(winner => winner.id == playerid)) {
             updatedGameWinners = winners.filter(winner => winner.id !== playerid)
         } else {
-            updatedGameWinners = [...winners, playerToAdd]
-        }
 
+            if (winners.length < 2) {
+                updatedGameWinners = [...winners, playerToAdd]
+            } else {
+
+                setErrorMessage("Winners cannot exceed two players.")
+            }
+            
+        }
         setWinners(updatedGameWinners)
     }
 
     const updateGame = () => {
-        const game = { players, winners, loseScore, socialSession, id }
+        if (loseScore > 0 && winners.length < 2) {
+            setErrorMessage("Please select two winning players.")
+            return
+        }
 
-        axios.put(`http://localhost:8088/badminton/games`, game)
-        .then(response => {loadSessionGames();navigate(`/socialsessions/${sessionid}/games`)})
+        if ((players.length == 4 || players.length == 0) && (winners.length == 2 || winners.length == 0)) { 
 
+            const game = { players, winners, loseScore, socialSession, id }
+            axios.put(`http://localhost:8088/badminton/games`, game)
+            .then(response => {setEditRow(-1);loadSessionGames();navigate(`/socialsessions/${sessionid}/games`)})
+    
+        } else {
+            
+            setErrorMessage("Please select four players and two winning players.")
+        }
     }
 
     const createGame = () => {
@@ -92,6 +120,7 @@ const SessionGames = () => {
 
     return (
         <>
+        <div style={{color: 'red'}}>{errorMessage}</div>
             {editRow == -1 && 
             <div>
                 <h1>Session games</h1>
@@ -159,7 +188,7 @@ const SessionGames = () => {
                     <ul style={{ listStyle: 'none', display: 'flex', flexWrap: 'wrap' }} className='PlayerCards'>
                         {players.map( player =>
                             <li key={player.id} onClick={() => removePlayerFromGame(player.id)}>
-                                {player.firstName}
+                                {player.firstName} {player.lastName.charAt(0).toUpperCase()}
                             </li>
                             )
                         }
@@ -173,7 +202,7 @@ const SessionGames = () => {
                             <li key={player.id}
                                 style={{backgroundColor: winners.find(winner => winner.id == player.id) ? 'green' : 'black'}}
                                 onClick={() => addGameWinner(player.id)}>
-                                {player.firstName}
+                                {player.firstName} {player.lastName.charAt(0).toUpperCase()}
                             </li>
                             )
                         }
@@ -183,11 +212,11 @@ const SessionGames = () => {
                 <div>
                     <h3>Available players in session (click to add)</h3>
                     <ul style={{ listStyle: 'none', display: 'flex', flexWrap: 'wrap'}} className='PlayerCards'>
-                        {socialSession.players
+                        {socialSession.players.slice().sort((a, b) => a.firstName.localeCompare(b.firstName))
                             .filter(player => !players.find(p=>p.id===player.id))
                             .map( player =>
                             <li key={player.id} style={{backgroundColor: 'gray'}} onClick={() => addPlayerToGame(player.id)}>
-                                {player.firstName}
+                                {player.firstName} {player.lastName.charAt(0).toUpperCase()}
                             </li>
                             )
                         }
@@ -200,7 +229,7 @@ const SessionGames = () => {
                 </div>
 
                 <div className='ButtonContainer'>
-                <button style={{backgroundColor: 'green'}} onClick={() => {updateGame();setEditRow(-1)}}>Save</button>
+                <button style={{backgroundColor: 'green'}} onClick={() => updateGame()}>Save</button>
                 <button style= {{backgroundColor: 'gray'}} onClick={() => setEditRow(-1)}>Back</button>
                 </div>
                 

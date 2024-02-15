@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import '../styles/LoginPage.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const LoginPage = (props) => {
     const [bearer, setBearer] = props.bearer
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
-    const [errorMsg, setErrorMsg] = useState("")
+    const [errorMessage, setErrorMessage] = useState("")
     const navigate = useNavigate()
 
     const handleLogin = (event) => {
@@ -20,8 +22,15 @@ const LoginPage = (props) => {
             }
         })
         .then(response => {setBearer("Bearer " + response.data);navigate("/admin/dashboard")})
-        .catch(()=> setErrorMsg("Login error"))
+        .catch(()=> setErrorMessage("Username/password is incorrect."))
     };
+
+    useEffect(() => {
+        if (errorMessage) {
+            const timer = setTimeout(() => {setErrorMessage("");}, 2000);
+            return () => clearTimeout(timer)
+        }
+    }, [errorMessage])
 
     return (
         <>
@@ -48,9 +57,10 @@ const LoginPage = (props) => {
                         className="loginInput" 
                     />
                 </div>
-                {errorMsg && <p className="errorMsg">{errorMsg}</p>}
+                <div style={{color: 'red'}}>{errorMessage}</div>
                 <button type="submit" className="loginButton">Login</button>
             </form>
+            <Link to="/register">Register account</Link>
         </>
     );
 };

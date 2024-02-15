@@ -36,7 +36,7 @@ public class UserController {
 	
 	@PostMapping("users")
 	public User createNewUser(@RequestBody User newUser) {
-		userService.save(newUser);
+		userService.register(newUser);
 		return userService.findUsername(newUser.getUsername());
 	}
 	

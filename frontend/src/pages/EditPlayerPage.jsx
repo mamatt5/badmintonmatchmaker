@@ -37,23 +37,26 @@ const EditPlayerPage = () => {
 
     const editPlayer = (event) => {
         event.preventDefault()
-        const player = { id, firstName, lastName, bracket, beemIt }
+        const trimFirstName = firstName.trim()
+        const trimLastName = lastName.trim()
+        const player = { id, firstName: trimFirstName, lastName: trimLastName, bracket, beemIt }
 
         axios.put('http://localhost:8088/badminton/players', player)
         .then(response => navigate("/players"))
     }
+
   return (
     <>
     <h2>Editing {firstName}'s info</h2>
         <form className="EditPlayerForm" onSubmit={editPlayer}>
         <div>
             <label>First name: </label>
-            <input required value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+            <input required value={firstName} onChange={(e) => setFirstName((e.target.value))} />
         </div>
 
         <div>
             <label>Last name: </label>
-            <input required value={lastName} onChange={(e) => setLastName(e.target.value)} />
+            <input required value={lastName} onChange={(e) => setLastName((e.target.value))} />
         </div>
 
         <div>

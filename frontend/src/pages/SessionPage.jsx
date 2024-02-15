@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 
 // hover on player to show details, bracket, fullname, and beemit
 const SessionPage = () => {
+    const [errorMessage, setErrorMessage] = useState("")
     const navigate = useNavigate();
     const {sessionid} = useParams();
     const id = sessionid;
@@ -21,7 +22,17 @@ const SessionPage = () => {
     const [joinPlayer, setJoinPlayer] = useState(false)
 
     useEffect(()=> {loadSession();loadPlayerList()},[])
-    useEffect(()=> {setAvailablePlayers(playerList.filter(player => !players.find(p=>p.id===player.id) ) )}, [playerList, players])
+    const sortedPlayerList = playerList.slice().sort((a, b) => a.firstName.localeCompare(b.firstName))
+    const sortedPlayers = players.slice().sort((a, b) => a.firstName.localeCompare(b.firstName))
+
+    useEffect(()=> {setAvailablePlayers(sortedPlayerList.filter(player => !players.find(p=>p.id===player.id) ) )}, [playerList, players])
+
+    useEffect(() => {
+        if (errorMessage) {
+            const timer = setTimeout(() => {setErrorMessage("");}, 2000);
+            return () => clearTimeout(timer)
+        }
+    }, [errorMessage])
 
     const loadSession = () => {
         axios.get(`http://localhost:8088/badminton/sessions/${sessionid}`)
@@ -62,6 +73,7 @@ const SessionPage = () => {
     const deleteSession = () => {
         axios.delete(`http://localhost:8088/badminton/sessions/${id}`)
         .then(response => {navigate('/socialsessions')})
+        .catch(error => setErrorMessage("Cannot delete session with games."))
     }
 
     const refreshPage = () => {
@@ -72,6 +84,7 @@ const SessionPage = () => {
 
     return (
         <>
+        <div style={{color: 'red', marginBottom: '5px'}}>{errorMessage}</div>
         <div>
             <button className='DeleteButton' onClick={() => deleteSession()}>Delete session</button>
             <button style={{backgroundColor: 'blue', marginLeft: '10px'}} onClick={() => navigate(`/socialsessions/${sessionid}/games`)}>
@@ -82,18 +95,18 @@ const SessionPage = () => {
             <h2>Date: {date}</h2>
             <h2>Court: {place.placeName}</h2>
         </>}
-        {joinPlayer && <h2>Chosen players</h2>}
+        {joinPlayer && <h2>Registered players</h2>}
         {removePlayer && <h2>Click the names of the players you want to remove from the session</h2>}
-        {}
+        
         <div>
         <ul style={{ listStyle: 'none', display: 'flex', flexWrap: 'wrap' }} className="PlayerCards">
-            {removePlayer ? (players.map(player => 
+            {removePlayer ? (sortedPlayers.map(player => 
 
                     <li key={player.id} style={{backgroundColor: 'red'}} onClick={() => removePlayerFromSession(player.id)}>
-                        {player.firstName} {player.lastName.charAt(0)}
+                        {player.firstName} {player.lastName.charAt(0).toUpperCase()}
                     </li>)) :
 
-            (players.map(player => <li key={player.id}>{player.firstName} {player.lastName.charAt(0)}</li>))}
+            (sortedPlayers.map(player => <li key={player.id}>{player.firstName} {player.lastName.charAt(0).toUpperCase()}</li>))}
                 </ul>
         </div>
 
@@ -117,7 +130,7 @@ const SessionPage = () => {
                         availablePlayers.map(player => 
 
                             <li key={player.id} style={{backgroundColor: 'green'}} onClick={() => addPlayerToSession(player.id)}>
-                                {player.firstName} {player.lastName.charAt(0)}
+                                {player.firstName} {player.lastName.charAt(0).toUpperCase()}
                             </li>)
                     }
                     </ul>
