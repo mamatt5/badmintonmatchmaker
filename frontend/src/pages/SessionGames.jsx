@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import '../styles/SessionGames.css'
 
+// max players in the game: 4
+// max winners in the game: 2
 const SessionGames = () => {
     const [socialSession, setSocialSession] = useState("")
     const [sessionGames, setSessionGames] = useState([])

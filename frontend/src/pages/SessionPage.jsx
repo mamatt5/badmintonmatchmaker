@@ -15,6 +15,7 @@ const SessionPage = () => {
     const [players, setPlayers] = useState([])
     const [playerList, setPlayerList] = useState([])
     const [availablePlayers, setAvailablePlayers] = useState([])
+    const [updated, setUpdated] = useState(false)
 
     const [removePlayer, setRemovePlayer] = useState(false)
     const [joinPlayer, setJoinPlayer] = useState(false)
@@ -89,19 +90,19 @@ const SessionPage = () => {
             {removePlayer ? (players.map(player => 
 
                     <li key={player.id} style={{backgroundColor: 'red'}} onClick={() => removePlayerFromSession(player.id)}>
-                        {player.firstName}
+                        {player.firstName} {player.lastName.charAt(0)}
                     </li>)) :
 
-            (players.map(player => <li key={player.id}>{player.firstName}</li>))}
+            (players.map(player => <li key={player.id}>{player.firstName} {player.lastName.charAt(0)}</li>))}
                 </ul>
         </div>
 
         <div className='ButtonContainer'>
             {!joinPlayer && <button style={{backgroundColor: 'green'}} 
-                onClick={()=>{setJoinPlayer(true);setRemovePlayer(false)}}>Join player</button>}
+                onClick={()=>{setUpdated(false);setJoinPlayer(true);setRemovePlayer(false)}}>Join player</button>}
 
             {!removePlayer && <button style={{backgroundColor: 'red'}} 
-                onClick={()=>{setJoinPlayer(false);setRemovePlayer(true)}}>Remove player</button>}
+                onClick={()=>{setUpdated(false);setJoinPlayer(false);setRemovePlayer(true)}}>Remove player</button>}
 
             {(!removePlayer && !joinPlayer) && <button style={{backgroundColor: 'grey'}} onClick={()=>navigate('/socialsessions')}>Go back</button>}
         </div>
@@ -116,19 +117,21 @@ const SessionPage = () => {
                         availablePlayers.map(player => 
 
                             <li key={player.id} style={{backgroundColor: 'green'}} onClick={() => addPlayerToSession(player.id)}>
-                                {player.firstName}
+                                {player.firstName} {player.lastName.charAt(0)}
                             </li>)
                     }
                     </ul>
-                    <button onClick= {() => {updateSession();refreshPage()}} className='UpdateButton'>Update</button>
+                    <button onClick= {() => {setUpdated(true);updateSession();refreshPage()}} className='UpdateButton'>Update</button>
                     </>
                 )
             }
             
-            {removePlayer && <button onClick= {() => {updateSession();refreshPage()}} className='UpdateButton'>Update</button>}
+            {removePlayer && <button onClick= {() => {setUpdated(true);updateSession();refreshPage()}} className='UpdateButton'>Update</button>}
 
-            {(joinPlayer || removePlayer) && <button onClick={() => refreshPage()} className='CancelButton'>Cancel</button>}
+            {(joinPlayer || removePlayer) && <button onClick={() => refreshPage()} className='CancelButton'>Back</button>}
         </div>
+
+        {updated && <h3 style={{color: 'green'}}>Player list updated!</h3>}
         </>
     )
 }
