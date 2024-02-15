@@ -67,7 +67,7 @@ const SessionGames = () => {
         if (winners.some(winner => winner.id == playerid)) {
             updatedGameWinners = winners.filter(winner => winner.id !== playerid)
         } else {
-            updatedGameWinners = [...winners, players.find(player => player.id == playerid)]
+            updatedGameWinners = [...winners, playerToAdd]
         }
 
         setWinners(updatedGameWinners)
@@ -198,8 +198,8 @@ const SessionGames = () => {
                 </div>
 
                 <div className='ButtonContainer'>
-                <button onClick={() => {updateGame();setEditRow(-1)}}>Save</button>
-                <button onClick={() => setEditRow(-1)}>Back</button>
+                <button style={{backgroundColor: 'green'}} onClick={() => {updateGame();setEditRow(-1)}}>Save</button>
+                <button style= {{backgroundColor: 'gray'}} onClick={() => setEditRow(-1)}>Back</button>
                 </div>
                 
             </div>

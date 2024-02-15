@@ -116,6 +116,20 @@ public class DataLoader implements ApplicationRunner {
 		Player player18 = new Player("Arjan", 	"De Guzman", bracketE);
 		Player player19 = new Player("Christian", "Manga", bracketC);
 		Player player20 = new Player("JV", 		"Paraiso", bracketC);
+		
+		// players for demo
+		Player player21 = new Player("Player1A", "test", bracketA);
+		Player player22 = new Player("Player2A", "test", bracketA);
+		Player player23 = new Player("Player1B", "test", bracketB);
+		Player player24 = new Player("Player2B", "test", bracketB);
+		Player player25 = new Player("Player1C", "test", bracketC);
+		Player player26 = new Player("Player2C", "test", bracketC);
+		Player player27 = new Player("Player1D", "test", bracketD);
+		Player player28 = new Player("Player2D", "test", bracketD);
+		Player player29 = new Player("Player1E", "test", bracketE);
+		Player player30 = new Player("Player2E", "test", bracketE);
+		Player player31 = new Player("Player3E", "test", bracketE);
+		Player player32 = new Player("Player4E", "test", bracketE);
 
 		// set players to users
 		admin1.setPlayer(player1);
@@ -151,6 +165,18 @@ public class DataLoader implements ApplicationRunner {
 		players.add(player18);
 		players.add(player19);
 		players.add(player20);
+		players.add(player21);
+		players.add(player22);
+		players.add(player23);
+		players.add(player24);
+		players.add(player25);
+		players.add(player26);
+		players.add(player27);
+		players.add(player28);
+		players.add(player29);
+		players.add(player30);
+		players.add(player31);
+		players.add(player32);
 
 
 		// Social Sessions dummies

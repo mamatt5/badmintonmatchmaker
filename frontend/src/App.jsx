@@ -24,9 +24,12 @@ function App() {
 
   return (
     <>
+    {!!bearer &&
+    <>
     <div>
       <NavigationBar logout={logout}/>
     </div>
+    </>}
     
     <div className="container">
     <Routes>

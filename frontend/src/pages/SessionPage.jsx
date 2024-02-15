@@ -110,7 +110,7 @@ const SessionPage = () => {
             {joinPlayer &&
                 (
                     <>
-                    <h3>Available players to add</h3>
+                    <h3>Available players to add (click to add)</h3>
                     <ul style={{listStyle: 'none', display: 'flex', flexWrap: 'wrap'}} className='PlayerCards'>
                     {
                         availablePlayers.map(player => 
