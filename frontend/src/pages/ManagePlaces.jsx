@@ -5,11 +5,19 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const ManagePlaces = () => {
+  const [errorMessage, setErrorMessage] = useState("")
   const navigate = useNavigate()
   const [places, setPlaces] = useState([])
-  const [placeName, setPlace] = useState([])
+  const [placeName, setPlaceName] = useState([])
 
   useEffect(() => {loadPlaces()}, [])
+
+  useEffect(() => {
+    if (errorMessage) {
+        const timer = setTimeout(() => {setErrorMessage("");}, 2000);
+        return () => clearTimeout(timer)
+    }
+}, [errorMessage])
 
   const loadPlaces = () => {
     axios.get('http://localhost:8088/badminton/places')
@@ -17,18 +25,26 @@ const ManagePlaces = () => {
   }
 
   const addPlace = () => {
-    const place = { placeName }
-    axios.post('http://localhost:8088/badminton/places', place)
-    .then(response => loadPlaces())
+    if ( placeName != '') {
+      const trimmedName = placeName.trim()
+      const place = { placeName: trimmedName }
+      axios.post('http://localhost:8088/badminton/places', place)
+      .then(response => loadPlaces())
+
+    } else {
+      setErrorMessage("Field cannot be empty.")
+    }
   }
 
   const removePlace  = (placeid) => {
     axios.delete(`http://localhost:8088/badminton/places/${placeid}`)
     .then(response => loadPlaces())
+    .catch(error => setErrorMessage("Cannot delete place/event with games/players."))
   }
 
   return (
     <>
+    <div style={{color: 'red'}}>{errorMessage}</div>
       <h2>Registered badminton courts</h2>
       <ul style={{listStyle: 'none'}}>
         {places.map(place =>
@@ -45,7 +61,7 @@ const ManagePlaces = () => {
       </ul>
 
       <div className='ButtonContainer'>
-        <input value={placeName} onChange={(e) => setPlace(e.target.value)}/>
+        <input value={placeName} onChange={(e) => setPlaceName(e.target.value)}/>
         <button style={{backgroundColor: 'green'}} onClick={() => addPlace()}>Add place</button>
         <button style={{backgroundColor: 'gray'}} onClick={() => navigate('/admin/dashboard')}>Go back</button>
       </div>

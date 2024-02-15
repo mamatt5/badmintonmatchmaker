@@ -13,7 +13,7 @@ const AdminDashboard = () => {
       <ul style={{listStyle: 'none', display: 'flex'}} className='DashboardElements'>
         <li><Link to="/players">Players</Link></li>
         <li><Link to="/socialsessions">Social sessions</Link></li>
-        <li><Link to="/places">Manage courts</Link></li>
+        <li><Link to="/places">Manage courts/events</Link></li>
       </ul>
     </div>
     </>

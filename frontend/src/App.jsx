@@ -14,6 +14,7 @@ import SessionPage from './pages/SessionPage.jsx'
 import AddSessionPage from './pages/AddSessionPage.jsx'
 import SessionGames from './pages/SessionGames.jsx'
 import ManagePlaces from './pages/ManagePlaces.jsx'
+import RegisterUser from './pages/RegisterUser.jsx'
 
 function App() {
   const [bearer, setBearer] = useState("")
@@ -34,6 +35,7 @@ function App() {
     <div className="container">
     <Routes>
       <Route path="/login" element={<LoginPage bearer={[bearer, setBearer]}/>} />
+      <Route path="/register" element={<RegisterUser />} />
 
       {!!bearer ?
       (

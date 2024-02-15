@@ -38,9 +38,9 @@ const AddSessionPage = () => {
         
         <div>
             <label>Place: </label>
-            <select required value={place.placeName} onChange={(e) =>
+            <select required value={place ? place.placeName : ""} onChange={(e) =>
                 setPlace(places.find(place => place.placeName === e.target.value))}>
-                        <option>Select place</option>
+                        <option disabled value="">Select place</option>
                     {places.map(place => (
                         <option key={place.id} value={place.placeName}>{place.placeName}</option>
                     ))}
@@ -49,7 +49,7 @@ const AddSessionPage = () => {
 
         <div>
             <label>Number of courts: </label>
-            <input type='number' min='0' value={numberCourts} onChange={(e) => setNumberCourts(e.target.value)} />
+            <input type='number' min='1' value={numberCourts} onChange={(e) => setNumberCourts(e.target.value)} />
         </div>
         
         <div>

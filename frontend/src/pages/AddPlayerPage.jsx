@@ -23,7 +23,9 @@ const AddPlayerPage = () => {
 
     const createPlayer = (event) => {
         event.preventDefault();
-        const player = { firstName, lastName, bracket, beemIt }
+        const trimFirstName = firstName.trim()
+        const trimLastName = lastName.trim()
+        const player = { firstName: trimFirstName, lastName: trimLastName, bracket, beemIt }
 
         axios.post('http://localhost:8088/badminton/players', player)
         .then(response => navigate("/players"))
@@ -50,9 +52,9 @@ const AddPlayerPage = () => {
 
         <div>
             <label>Bracket: </label>
-            <select required value={bracket.category} onChange={(e) => 
+            <select required value={bracket ? bracket.category : ""} onChange={(e) => 
                 setBracket(brackets.find(bracket => bracket.category === e.target.value))}>
-                            <option>Select bracket</option>
+                            <option disabled value="">Select bracket</option>
                         {brackets.map(bracket => (
                             <option key={bracket.id} value={bracket.category}>{bracket.category}</option>
                         ))}

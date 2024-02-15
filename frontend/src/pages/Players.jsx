@@ -18,6 +18,8 @@ const Players = () => {
         .then(response => {setPlayerList(response.data)})
     }
 
+    const sortedList = playerList.slice().sort((a, b) => a.lastName.localeCompare(b.lastName))
+
   return (
     <>
     <div>
@@ -27,7 +29,7 @@ const Players = () => {
     <div>
         <h1>Players</h1>
         <ul style={{listStyle: 'none'}}>
-            {playerList.map(player =>
+            {sortedList.map(player =>
                 <li key = {player.id}><PlayerInfo player={player} loadPlayers={loadPlayers}/></li>)}
         </ul>
     </div>
