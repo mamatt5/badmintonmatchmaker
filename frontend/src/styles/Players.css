@@ -3,13 +3,20 @@
     background-color: green;
 }
 
-/* ul {
+.PlayersContainer {
     display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    justify-content: space-between;
 }
 
-li {
-    margin: 5px;
-} */
+.PlayersList {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    overflow-y: auto;
+}
+
+.PlayersList li {
+    flex: 0 0 30%;
+    padding: 10px;
+}

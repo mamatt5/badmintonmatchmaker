@@ -1,7 +1,6 @@
-import React from 'react'
-import '../styles/SessionInfo.css'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import '../styles/SessionInfo.css'
 
 const SessionInfo = ({ session }) => {
     const { id, date, place, players } = session
@@ -9,7 +8,7 @@ const SessionInfo = ({ session }) => {
 
   return (
     <>
-    <div className="SessionCards">
+    <div className="SessionInfo">
       <Link to={`/socialsessions/${id}`}><p>{date} | {place.placeName}</p></Link>
       <button onClick={()=>setShowPlayers(!showPlayers)}>Show players</button>
           {showPlayers && <ul style={{listStyle: 'none'}}>

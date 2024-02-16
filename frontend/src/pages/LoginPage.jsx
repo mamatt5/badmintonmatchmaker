@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
-import '../styles/LoginPage.css';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import '../styles/LoginPage.css';
 
 const LoginPage = (props) => {
     const [bearer, setBearer] = props.bearer
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const [showPassword, setShowPassword] = useState(false)
     const [errorMessage, setErrorMessage] = useState("")
     const navigate = useNavigate()
 
@@ -38,25 +37,17 @@ const LoginPage = (props) => {
             <h1>Badminton Matchmaker</h1>
                 <div>
                     <p>Username</p>
-                    <input 
-                        type="text" 
-                        required 
-                        value={username} 
-                        onChange={(e) => setUsername(e.target.value)} 
-                        className="loginInput" 
-                    />
+                    <input type="text" required value={username} onChange={(e) => setUsername(e.target.value)} className="loginInput" />
                 </div>
 
                 <div>
                     <p>Password</p>
-                    <input 
-                        type="text" 
-                        required 
-                        value={password} 
-                        onChange={(e) => setPassword(e.target.value)} 
-                        className="loginInput" 
-                    />
+                    <input type={showPassword ? "text" : "password"} required value={password} onChange={(e) => setPassword(e.target.value)} className="loginInput" />
+                    <button type="button" onMouseDown={() => setShowPassword(true)} onMouseUp={() => setShowPassword(false)} onMouseLeave={() => setShowPassword(false)}
+                        style={{backgroundColor: 'transparent', padding: '0px', marginLeft: '10px', border: 'none', outline: 'none'}}>
+                            {showPassword ? "x" : "o"}</button>
                 </div>
+
                 <div style={{color: 'red'}}>{errorMessage}</div>
                 <button type="submit" className="loginButton">Login</button>
             </form>
