@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.fdmgroup.MattBadmintonMatchmaker.dal.BracketRepository;
 import com.fdmgroup.MattBadmintonMatchmaker.dal.GameRepository;
@@ -55,6 +56,8 @@ public class ServiceTests {
 	SocialSessionRepository socialSessionRepositoryMock;
 	@Mock
 	UserRepository userRepositoryMock;
+	@Mock
+	PasswordEncoder passwordEncoderMock;
 
 	BracketService bracketService;
 	GameService gameService;
@@ -67,11 +70,11 @@ public class ServiceTests {
 	@BeforeEach
 	public void setup() {
 		bracketService = new BracketService(bracketRepositoryMock);
-		gameService = new GameService(gameRepositoryMock);
+		gameService = new GameService(gameRepositoryMock, socialSessionRepositoryMock);
 		placeService = new PlaceService(placeRepositoryMock);
 		playerService = new PlayerService(playerRepositoryMock);
 		socialSessionService = new SocialSessionService(socialSessionRepositoryMock);
-		userService = new UserService(userRepositoryMock);
+		userService = new UserService(userRepositoryMock, passwordEncoderMock);
 		matchMakerService = new MatchmakerService();
 	}
 	/////////////// Bracket service tests ///////////////
@@ -131,6 +134,21 @@ public class ServiceTests {
 		when(placeRepositoryMock.existsById(0)).thenReturn(true);
 		placeService.update(roketto);
 		verify(placeRepositoryMock).save(roketto);
+	}
+	
+	@Test
+	public void place_service_deletes_place() {
+		when(placeRepositoryMock.existsById(0)).thenReturn(true);
+		placeService.deleteById(0);
+		verify(placeRepositoryMock).existsById(0);
+		verify(placeRepositoryMock).deleteById(0);
+	}
+	
+	@Test
+	public void place_service_throws_when_deletes_place_that_does_not_exist() {
+		when(placeRepositoryMock.existsById(1)).thenReturn(false);
+		assertThrows(RuntimeException.class, () -> placeService.deleteById(1));
+		verify(placeRepositoryMock, times(0)).deleteById(1);
 	}
 	
 	@Test
@@ -313,9 +331,9 @@ public class ServiceTests {
 	@Test
 	public void user_service_creates_new_user() {
 		User user1 = new User("mattC", 		"mattC", false);
+		when(userRepositoryMock.existsById("mattC")).thenReturn(false);
 
-		userService.save(user1);
-
+		userService.register(user1);
 		verify(userRepositoryMock, times(1)).save(user1);
 	}
 	
@@ -341,7 +359,7 @@ public class ServiceTests {
 		User user1 = new User("mattC", 		"mattC", false);
 
 		when(userRepositoryMock.existsById("mattC")).thenReturn(true);
-		assertThrows(RuntimeException.class, () -> userService.save(user1));
+		assertThrows(RuntimeException.class, () -> userService.register(user1));
 		verify(userRepositoryMock, times(1)).existsById("mattC");
 		verify(userRepositoryMock, times(0)).save(user1);
 	}
@@ -525,6 +543,55 @@ public class ServiceTests {
 		assertEquals(games, gameService.findAll());
 		verify(gameRepositoryMock).findAll();
 
+	}
+	
+	@Test
+	public void game_service_gets_games_on_session_id() {
+		Bracket bracketE = new Bracket(5, 'E');
+		Place alphaAuburn = 	new Place("Alpha Badminton Center, Auburn");
+		Place roketto=			new Place("Roketto Badminton Center");
+
+		Player player1 = new Player("Angel", 	"Ramos", bracketE);
+		Player player2 = new Player("Anjo", 	"Alfon", bracketE);
+		Player player3 = new Player("Karen", 	"Vega", bracketE);
+		Player player4 = new Player("Matt", 	"Chanco", bracketE);
+
+		SocialSession session1 = new SocialSession(LocalDate.of(2023, 12, 22), 5, alphaAuburn);
+		SocialSession session2 = new SocialSession(LocalDate.of(2023, 12, 22), 5, roketto);
+		session1.setId(1);
+		session2.setId(2);
+		
+		Game game1 = new Game( Arrays.asList(player1,player2,player3,player4), session1);
+		Game game2 = new Game( Arrays.asList(player1,player2,player3,player4), session1);
+		Game game3 = new Game( Arrays.asList(player1,player2,player3,player4), session2);
+		Game game4 = new Game( Arrays.asList(player1,player2,player3,player4), session2);
+		Game game5 = new Game( Arrays.asList(player1,player2,player3,player4), session2);
+
+		game1.setId(1);
+		game2.setId(2);
+		game3.setId(3);
+		game4.setId(4);
+		game5.setId(5);
+
+		ArrayList<Game> games1 = new ArrayList<Game>();
+		games1.add(game1);
+		games1.add(game2);
+		
+		ArrayList<Game> games2 = new ArrayList<Game>();
+		games2.add(game3);
+		games2.add(game4);
+		games2.add(game5);
+		
+		ArrayList<Game> allGames = new ArrayList<Game>();
+		allGames.addAll(games1);
+		allGames.addAll(games2);
+		
+		when(socialSessionRepositoryMock.findById(1)).thenReturn(Optional.of(session1));
+		when(socialSessionRepositoryMock.findById(2)).thenReturn(Optional.of(session2));
+		when(gameRepositoryMock.findAll()).thenReturn(allGames);
+		
+		assertEquals(games1, gameService.findBySessionId(1));
+		assertEquals(games2, gameService.findBySessionId(2));
 	}
 
 	@Test

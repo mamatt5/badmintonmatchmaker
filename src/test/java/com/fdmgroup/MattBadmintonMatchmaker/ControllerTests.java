@@ -127,6 +127,12 @@ public class ControllerTests {
 		placeController.createNewPlace(roketto);
 		verify(placeServiceMock).save(roketto);
 	}
+	
+	@Test
+	public void place_controller_deletes_place() {
+		placeController.deletePlace(0);
+		verify(placeServiceMock).deleteById(0);
+	}
 
 	@Test
 	public void place_controller_updates_place() {
@@ -282,7 +288,7 @@ public class ControllerTests {
 
 		User newUser = userController.createNewUser(user1);
 
-		verify(userServiceMock, times(1)).save(user1);
+		verify(userServiceMock, times(1)).register(user1);
 		assertEquals(newUser, user1);
 	}
 

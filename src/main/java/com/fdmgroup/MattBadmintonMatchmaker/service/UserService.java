@@ -23,10 +23,6 @@ public class UserService {
 		this.encoder = encoder;
 	}
 	
-	public UserService(UserRepository userRepository) {
-		super();
-		this.userRepository = userRepository;
-	}
 
 	public List<User> findAllUsers() {
 		return this.userRepository.findAll();
@@ -34,15 +30,6 @@ public class UserService {
 
 	public User findUsername(String username) {
 		return this.userRepository.findById(username).orElseThrow(()-> new NotFoundException("Username not found"));
-	}
-
-	public void save(User newUser) {
-		if (this.userRepository.existsById(newUser.getUsername())) {
-			throw new DuplicateException("Username already exists");
-			
-		} else {
-			this.userRepository.save(newUser);
-		}
 	}
 	
 	public void register(User newUser) {

@@ -28,11 +28,6 @@ public class GameService {
 		this.socialSessionRepository = socialSessionRepository;
 	}
 
-	public GameService(GameRepository gameRepository) {
-		super();
-		this.gameRepository = gameRepository;
-	}
-
 	public List<Game> findAll() {
 		return this.gameRepository.findAll();
 	}
