@@ -1,0 +1,12 @@
+.SessionList {
+    list-style: none;
+    padding: 0;
+}
+
+.SessionItem {
+    border: solid #ccc;
+    border-radius: 10px;
+    padding: 0;
+    margin-bottom: 10px;
+
+}

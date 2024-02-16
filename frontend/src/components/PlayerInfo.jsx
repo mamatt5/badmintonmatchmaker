@@ -1,9 +1,7 @@
-import React from 'react'
-import '../styles/PlayerInfo.css'
-import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import '../styles/PlayerInfo.css';
 
 const PlayerInfo = ({ player, loadPlayers }) => {
     const [errorMessage, setErrorMessage] = useState("")

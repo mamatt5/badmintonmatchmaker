@@ -1,30 +1,47 @@
-.SessionCards {
+.SessionInfo {
     display: flex;
     align-items: center;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 10px;
 }
 
-.SessionCards p {
+.SessionInfo p {
     margin-right: 10px;
 }
 
-.SessionCards button {
+.SessionInfo button {
     padding: 8px 16px;
     background-color: #007bff;
     color: #fff;
     border: none;
     cursor: pointer;
+    margin-left: auto;
+    border: solid transparent;
+    font-size: 15px;
+    border-radius: 5px;
 }
 
-.SessionCards ul {
+.SessionInfo button:hover {
+    border: solid;
+}
+
+.SessionInfo ul {
     display: flex;
     flex-wrap: wrap;
-    margin-top: 0;
+    list-style: none;
+    padding: 0;
+    margin: 20px;
 }
 
-.SessionCards li {
+.SessionInfo ul li {
     margin-right: 10px;
-    list-style: none;
+}
+
+.SessionInfo a:hover {
+    text-decoration: underline;
+}
+
+.SessionInfo p {
+    font-size: 20px;
 }

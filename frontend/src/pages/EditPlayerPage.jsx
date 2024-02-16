@@ -1,10 +1,7 @@
 import axios from 'axios'
-import React from 'react'
-import { useState } from 'react'
-import { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import '../styles/EditPlayerForm.css'
-import { useNavigate } from 'react-router-dom'
 
 const EditPlayerPage = () => {
     const {playerid} = useParams()

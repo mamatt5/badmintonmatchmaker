@@ -1,20 +1,18 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { Route, Routes } from 'react-router-dom'
 import './App.css'
-import LoginPage from './pages/LoginPage.jsx'
-import AdminDashboard from './pages/AdminDashboard.jsx'
-import Players from './pages/Players.jsx'
-import SocialSessions from './pages/SocialSessions.jsx'
-import { Routes } from 'react-router-dom'
-import { Route } from 'react-router-dom'
 import NavigationBar from './components/NavigationBar.jsx'
 import AddPlayerPage from './pages/AddPlayerPage.jsx'
-import { useState } from 'react'
-import EditPlayerPage from './pages/EditPlayerPage.jsx'
-import SessionPage from './pages/SessionPage.jsx'
 import AddSessionPage from './pages/AddSessionPage.jsx'
-import SessionGames from './pages/SessionGames.jsx'
+import AdminDashboard from './pages/AdminDashboard.jsx'
+import EditPlayerPage from './pages/EditPlayerPage.jsx'
+import LoginPage from './pages/LoginPage.jsx'
 import ManagePlaces from './pages/ManagePlaces.jsx'
+import Players from './pages/Players.jsx'
 import RegisterUser from './pages/RegisterUser.jsx'
+import SessionGames from './pages/SessionGames.jsx'
+import SessionPage from './pages/SessionPage.jsx'
+import SocialSessions from './pages/SocialSessions.jsx'
 
 function App() {
   const [bearer, setBearer] = useState("")
@@ -23,6 +21,15 @@ function App() {
     setBearer('')
   }
 
+  useEffect(() => {
+    const storedBearer = localStorage.getItem("bearer");
+    if (storedBearer) {
+      setBearer(storedBearer);
+    }
+  }, []);
+
+  useEffect(() => {localStorage.setItem("bearer", bearer);}, [bearer]);
+  
   return (
     <>
     {!!bearer &&

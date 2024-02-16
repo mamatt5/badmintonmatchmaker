@@ -1,7 +1,5 @@
 import axios from 'axios'
-import React from 'react'
-import { useEffect } from 'react'
-import { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const ManagePlaces = () => {
@@ -45,24 +43,18 @@ const ManagePlaces = () => {
   return (
     <>
     <div style={{color: 'red'}}>{errorMessage}</div>
-      <h2>Registered badminton courts</h2>
+      <h1>Registered courts/events</h1>
       <ul style={{listStyle: 'none'}}>
         {places.map(place =>
-          <li key={place.id}>
-            {place.placeName}
-            <button onClick={() => removePlace(place.id)}
-            style={{
-              marginLeft: '10px',
-              color: 'red',
-              padding: '5px',
-              backgroundColor: 'transparent'}}>
-              x</button>
+          <li key={place.id} style={{fontSize: '20px'}}>
+            {place.placeName} 
+            <button onClick={() => removePlace(place.id)} style={{marginLeft: '10px', color: 'red', padding: '5px', backgroundColor: 'transparent'}}> x</button>
           </li>)}
       </ul>
 
       <div className='ButtonContainer'>
         <input value={placeName} onChange={(e) => setPlaceName(e.target.value)}/>
-        <button style={{backgroundColor: 'green'}} onClick={() => addPlace()}>Add place</button>
+        <button style={{backgroundColor: 'green'}} onClick={() => {addPlace();setPlaceName("")}}>Add place</button>
         <button style={{backgroundColor: 'gray'}} onClick={() => navigate('/admin/dashboard')}>Go back</button>
       </div>
 

@@ -1,6 +1,5 @@
 import axios from 'axios'
-import React from 'react'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const RegisterUser = () => {
@@ -8,6 +7,8 @@ const RegisterUser = () => {
     const navigate = useNavigate()
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const [confirmPassword, setConfirmPassword] = useState("")
+    const [showPassword, setShowPassword] = useState(false)
 
     const registerUser = (event) => {
         event.preventDefault()
@@ -15,12 +16,17 @@ const RegisterUser = () => {
         const validPassword = /\s/g.test(password)
 
         if (!validUsername && !validPassword) {
-            const user = { username, password }
-            axios.post('http://localhost:8088/badminton/users', user)
-            .then(response => navigate("/login"))
-            .catch(error => setErrorMessage("Username already exists"))
-        } else {
+            if (confirmPassword === password){
+                const user = { username, password }
+                axios.post('http://localhost:8088/badminton/users', user)
+                .then(response => navigate("/login"))
+                .catch(error => setErrorMessage("Username already exists"))
+
+            } else {
+                setErrorMessage("Passwords do not match.")
+            }
             
+        } else {
             setErrorMessage("Username/password cannot have spaces.")
         }
     }
@@ -31,15 +37,28 @@ const RegisterUser = () => {
     <form className='loginForm' onSubmit={registerUser}>
         <div>
             <p>Username</p>
-            <input required type="text" value={username} className="loginInput"
+            <input required type="text" value={username} minLength={6} className="loginInput"
                 onChange={(e) => setUsername(e.target.value)} />
         </div>
-            <p>Password</p>
-            <input required type="text" value={password} className="loginInput"
-                onChange={(e) => setPassword(e.target.value)} />
+            
         <div>
-
+            <p>Password</p>
+            <input required type={showPassword ? "text" : "password"} value={password} className="loginInput"
+                onChange={(e) => setPassword(e.target.value)} />
+            <button type="button" onMouseDown={() => setShowPassword(true)} onMouseUp={() => setShowPassword(false)} onMouseLeave={() => setShowPassword(false)}
+                style={{backgroundColor: 'transparent', padding: '0px', marginLeft: '10px', border: 'none', outline: 'none'}}>
+                    {showPassword ? "x" : "o"}</button>
         </div>
+
+        <div>
+            <p>Confirm password</p>
+            <input required type={showPassword ? "text" : "password"} value={confirmPassword} className="loginInput"
+                onChange={(e) => setConfirmPassword(e.target.value)} />
+            <button type="button" onMouseDown={() => setShowPassword(true)} onMouseUp={() => setShowPassword(false)} onMouseLeave={() => setShowPassword(false)}
+                style={{backgroundColor: 'transparent', padding: '0px', marginLeft: '10px', border: 'none', outline: 'none'}}>
+                    {showPassword ? "x" : "o"}</button>
+        </div>
+
         <div style={{color: 'red'}}>{errorMessage}</div>
         <button type="submit" className="loginButton">Register</button>
     </form>
