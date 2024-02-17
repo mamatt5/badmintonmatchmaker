@@ -4,6 +4,13 @@ import { useNavigate } from 'react-router-dom'
 import SessionInfo from '../components/SessionInfo.jsx'
 import '../styles/SocialSessions.css'
 
+// This renders the social sessions page where it loads all the social sessions stored in the database. The user should be able
+// to filter out social sessions based on a period of date. Each social session is rendered into a SessionInfo component for
+// object-oriented design, and are sorted based on date. It also allows the user to view all the registered players in the 
+// social session. In future developments, pagination should be implemented as the database would continue to grow once it is
+// deployed publicly for actual use. The session entity is also passed on as a prop into the SessionInfo component for data
+// handling as it contains more functionality, especially when the component gets rendered again into the SessionPage.
+
 const SocialSessions = () => {
     const navigate = useNavigate();
     const [sessionList, setSessionList] = useState([])
@@ -37,14 +44,19 @@ const SocialSessions = () => {
         <h1>Social sessions</h1>
 
       <div>
-        <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} style={{fontSize: '15px'}} />
-        <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} style={{marginLeft: '10px', fontSize: '15px'}} />
+        <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} style={{fontSize: '15px'}} />
+        <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} style={{marginLeft: '10px', fontSize: '15px'}} />
       </div>
 
         <ul style={{listStyle: 'none'}} className='SessionList'>
           {sortedSessions.map(session =>
-            <li key={session.id} className='SessionItem'><SessionInfo session = {session} /></li>)}
+
+            <li key={session.id} className='SessionItem'>
+              <SessionInfo session = {session} />
+            </li>)}
+
         </ul>
+
       </div>
     </>
 

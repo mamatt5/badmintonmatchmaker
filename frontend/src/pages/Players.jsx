@@ -4,6 +4,10 @@ import { useNavigate } from 'react-router-dom'
 import PlayerInfo from '../components/PlayerInfo'
 import '../styles/Players.css'
 
+// This file renders the player list of the database. It lists all player information registered in the database. Note that
+// player is different from users. This file renders each information using the PlayerInfo component. It also allows users
+// to add players into the database.
+
 const Players = () => {
     const [playerList, setPlayerList] = useState([])
 

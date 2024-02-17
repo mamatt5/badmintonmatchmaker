@@ -3,7 +3,21 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import '../styles/SessionPage.css'
 
-// hover on player to show details, bracket, fullname, and beemit
+// This component is one of the more complicated code in this application as it also handles player entities registered in
+// the session. User actions are minimized to merely clicks so it makes the interface very intuitive in adding and removing
+// players from the session. The player list is also sorted by first name. The color of the player cards also changes color
+// to provide the user a visual cue on whether they are adding or removing players. Note that to save any modifications, the
+// user has to click the "Update" button, otherwise any change would get discarded. This reduces API calls to a single
+// call and only when the "Update" button was clicked. Also note that a session cannot be deleted if there are any games
+// registered in the session.
+
+// Incuded in this page is getting the list of all players registered into the database. This is rendered if the user wants
+// to register other players into the session. The list if filtered if the player is already registered into the session.
+
+// Some features of this page include rendering different components whenever "Join player" or "Remove player" button is
+// clicked which is why this file contains more lines of code compared to the other components. It is also from this page
+// where the user can navigate to the list of games in that specific session.
+
 const SessionPage = () => {
     const [errorMessage, setErrorMessage] = useState("")
     const navigate = useNavigate();
@@ -84,42 +98,54 @@ const SessionPage = () => {
     return (
         <>
         <div style={{color: 'red', marginBottom: '5px'}}>{errorMessage}</div>
+
         <div>
             <button className='DeleteButton' onClick={() => deleteSession()}>Delete session</button>
             <button style={{backgroundColor: 'blue', marginLeft: '10px'}} onClick={() => navigate(`/socialsessions/${sessionid}/games`)}>
                 Show games</button>
         </div>
+
         { (!joinPlayer && !removePlayer) &&
         <>
             <h2>Date: {date}</h2>
             <h2>Court: {place.placeName}</h2>
         </>}
+
         {joinPlayer && <h2>Registered players</h2>}
         {removePlayer && <h2>Click the names of the players you want to remove from the session</h2>}
         
         <div>
-        <ul style={{ listStyle: 'none', display: 'flex', flexWrap: 'wrap' }} className="PlayerCards">
-            {removePlayer ? (sortedPlayers.map(player => 
+            {/* Renders the list of players registered into the session */}
+            <ul style={{ listStyle: 'none', display: 'flex', flexWrap: 'wrap' }} className="PlayerCards">
 
-                    <li key={player.id} style={{backgroundColor: 'red'}} onClick={() => removePlayerFromSession(player.id)}>
-                        {player.firstName} {player.lastName.charAt(0).toUpperCase()}
-                    </li>)) :
+                {/* Appearance changes if "Remove Player" button is clicked and turns the player cards into clickable components */}
+                {removePlayer ? (sortedPlayers.map(player => 
 
-            (sortedPlayers.map(player => <li key={player.id}>{player.firstName} {player.lastName.charAt(0).toUpperCase()}</li>))}
-                </ul>
+                        <li key={player.id} style={{backgroundColor: 'red'}} onClick={() => removePlayerFromSession(player.id)}>
+                            {player.firstName} {player.lastName.charAt(0).toUpperCase()}
+                        </li>)) :
+
+                (sortedPlayers.map(player => <li key={player.id}>{player.firstName} {player.lastName.charAt(0).toUpperCase()}</li>))}
+            </ul>
         </div>
 
         <div className='ButtonContainer'>
+
+            {/* Renders different actions available for the user */}
             {!joinPlayer && <button style={{backgroundColor: 'green'}} 
                 onClick={()=>{setUpdated(false);setJoinPlayer(true);setRemovePlayer(false)}}>Join player</button>}
 
             {!removePlayer && <button style={{backgroundColor: 'red'}} 
                 onClick={()=>{setUpdated(false);setJoinPlayer(false);setRemovePlayer(true)}}>Remove player</button>}
 
-            {(!removePlayer && !joinPlayer) && <button style={{backgroundColor: 'grey'}} onClick={()=>navigate('/socialsessions')}>Go back</button>}
+            {(!removePlayer && !joinPlayer) && 
+                <button style={{backgroundColor: 'grey'}} onClick={()=>navigate('/socialsessions')}>Go back</button>}
         </div>
         
         <div>
+
+            {/* Renders the list of players registered in the database that is not registered in the session. The player
+            cards are clickable so users only have to click the names of the players they want to add. */}
             {joinPlayer &&
                 (
                     <>
@@ -138,9 +164,12 @@ const SessionPage = () => {
                 )
             }
             
-            {removePlayer && <button onClick= {() => {setUpdated(true);updateSession();refreshPage()}} className='UpdateButton'>Update</button>}
+            {removePlayer && 
+                <button onClick= {() => {setUpdated(true);updateSession();refreshPage()}} className='UpdateButton'>Update</button>}
 
-            {(joinPlayer || removePlayer) && <button onClick={() => refreshPage()} className='CancelButton'>Back</button>}
+            {(joinPlayer || removePlayer) && 
+                <button onClick={() => refreshPage()} className='CancelButton'>Back</button>}
+                
         </div>
 
         {updated && <h3 style={{color: 'green'}}>Player list updated!</h3>}

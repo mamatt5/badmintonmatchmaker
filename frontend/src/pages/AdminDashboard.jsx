@@ -2,6 +2,8 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import '../styles/AdminDashboard.css'
 
+// This file renders the dashboard to where the user is navigated to once successfully logged in.
+
 const AdminDashboard = () => {
   return (
     <>

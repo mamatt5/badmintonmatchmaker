@@ -3,6 +3,9 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import '../styles/EditPlayerForm.css'
 
+// This file renders the edit player page. This is similar to the add player page except the player's information is pre-filled
+// into the form.
+
 const EditPlayerPage = () => {
     const {playerid} = useParams()
     const id = playerid
@@ -13,7 +16,6 @@ const EditPlayerPage = () => {
 
     const [brackets, setBrackets] = useState([])
     const navigate=useNavigate();
-
 
     useEffect(() => {loadPlayer();loadBrackets()}, [])
 
@@ -45,6 +47,7 @@ const EditPlayerPage = () => {
   return (
     <>
     <h2>Editing {firstName}'s info</h2>
+    
         <form className="EditPlayerForm" onSubmit={editPlayer}>
         <div>
             <label>First name: </label>
@@ -73,9 +76,10 @@ const EditPlayerPage = () => {
         </div>
 
         <div>
-        <button type='submit' style={{backgroundColor: 'green'}}>Submit</button>
-        <button style={{backgroundColor: 'gray'}} onClick={() => navigate('/players')}>Cancel</button>
+            <button type='submit' style={{backgroundColor: 'green'}}>Submit</button>
+            <button style={{backgroundColor: 'gray'}} onClick={() => navigate('/players')}>Cancel</button>
         </div>
+
         </form>
     </>
   )
