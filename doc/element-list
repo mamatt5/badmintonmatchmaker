@@ -1,0 +1,7 @@
+com.fdmgroup.MattBadmintonMatchmaker
+com.fdmgroup.MattBadmintonMatchmaker.controller
+com.fdmgroup.MattBadmintonMatchmaker.dal
+com.fdmgroup.MattBadmintonMatchmaker.exceptions
+com.fdmgroup.MattBadmintonMatchmaker.model
+com.fdmgroup.MattBadmintonMatchmaker.security
+com.fdmgroup.MattBadmintonMatchmaker.service

@@ -23,7 +23,7 @@ import SocialSessions from './pages/SocialSessions.jsx'
 // minimizing key strokes by utilizing just button clicks to perform various actions.
 //
 // This application was built on the following infrastructure:
-// Frontend: React
+// Frontend: React Vite
 // Backend: Java, Spring framework
 // Database: MySQL
 // Code editors: Eclipse, VS Code

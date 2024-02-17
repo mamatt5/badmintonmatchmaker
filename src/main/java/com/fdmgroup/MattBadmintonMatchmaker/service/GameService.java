@@ -13,8 +13,10 @@ import com.fdmgroup.MattBadmintonMatchmaker.exceptions.NotFoundException;
 import com.fdmgroup.MattBadmintonMatchmaker.model.Game;
 import com.fdmgroup.MattBadmintonMatchmaker.model.SocialSession;
 
-
-// update UML, add socialsession repo
+/**
+ * This is the only service that takes in another repository. This is because the application would need to render games
+ * specific to a social session entity, hence the need to call the SocialSession Repository.
+ */
 
 @Service
 public class GameService {
@@ -36,6 +38,11 @@ public class GameService {
 		return this.gameRepository.findById(gameId).orElseThrow(()-> new NotFoundException("No game with id: " +gameId));
 	}
 	
+	/**
+	 * This filters the list of games specific to a social session.
+	 * @param sessionId
+	 * @return List<Game>
+	 */
 	public List<Game> findBySessionId(int sessionId) {
 		SocialSession session = this.socialSessionRepository.findById(sessionId)
 				.orElseThrow(()-> new NotFoundException("Social Session not found"));
@@ -44,6 +51,7 @@ public class GameService {
 		List<Game> sessionGames = new ArrayList<Game>();
 		
 		for (Game game : allGames) {
+			
 			if (game.getSocialSession() == session) {
 				sessionGames.add(game);
 			}

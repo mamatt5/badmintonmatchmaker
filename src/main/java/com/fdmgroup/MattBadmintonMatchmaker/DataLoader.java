@@ -22,7 +22,10 @@ import com.fdmgroup.MattBadmintonMatchmaker.model.Player;
 import com.fdmgroup.MattBadmintonMatchmaker.model.SocialSession;
 import com.fdmgroup.MattBadmintonMatchmaker.model.User;
 
-
+/**
+ * This file just holds dummy data for application testing. In the actual deployment of the application, it is planned
+ * to only initially hold the five brackets [A,B,C,D,E] and one user.
+ */
 
 @Service
 public class DataLoader implements ApplicationRunner {
@@ -47,8 +50,6 @@ public class DataLoader implements ApplicationRunner {
 		this.socialSessionRepository = socialSessionRepository;
 		this.userService = userService;
 	}
-
-
 
 
 	@Override
@@ -291,7 +292,6 @@ public class DataLoader implements ApplicationRunner {
 		placeRepository.save(alphaEgerton);
 		placeRepository.save(roketto);
 		
-		// Change to userService for dataloading for encrypting
 		// Load social session entities
 		for (SocialSession session : sessions) {
 			socialSessionRepository.save(session);

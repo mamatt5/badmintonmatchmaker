@@ -1,6 +1,5 @@
 package com.fdmgroup.MattBadmintonMatchmaker.model;
 
-
 import java.util.List;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +8,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+
+/**
+ * This entity holds game information. Each game is composed of four player entities who participated in the game and
+ * among which should be two who are the winners. Input validation is done on client side to minimize backend load.
+ */
 
 @Entity
 public class Game {
@@ -88,7 +92,6 @@ public class Game {
 
 	public Game() {
 		super();
-		// 
 	}
 
 	@Override

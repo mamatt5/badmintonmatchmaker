@@ -6,6 +6,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
+/**
+ * This entity holds the information of the players. It gets a Bracket entity as part of its
+ * construction. BeemIt is an optional attribute as not all players have BeemIt information.
+ * It is a necessary attribute in the future once the application is deployed for public use.
+ */
+
 @Entity
 public class Player {
 	@Id
@@ -70,7 +76,6 @@ public class Player {
 
 	public Player() {
 		super();
-		// 
 	}
 
 	@Override

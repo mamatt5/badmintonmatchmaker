@@ -3,12 +3,16 @@ package com.fdmgroup.MattBadmintonMatchmaker.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
+/**
+ * This entity holds the player bracket. It restricts the user to assign skill brackets only to
+ * A, B, C, D, or E
+ */
 @Entity
 public class Bracket {
 	
 	@Id
-	private int bracket_id; // should be final
-	private char category; // should be final
+	private int bracket_id;
+	private char category;
 	
 	public int getId() {
 		return bracket_id;
@@ -34,7 +38,6 @@ public class Bracket {
 	
 	public Bracket() {
 		super();
-		// 
 	}
 
 	@Override

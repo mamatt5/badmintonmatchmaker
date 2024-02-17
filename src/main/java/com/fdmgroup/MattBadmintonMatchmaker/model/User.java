@@ -4,6 +4,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 
+/**
+ * This entity holds the user information. This is what would be used for logging in and getting access to the
+ * whole application. Not yet implemented in the application is having a player entity integrated into the user
+ * so that in the future, users can only edit their own player information. This also means that admin and normal
+ * user privileges must be implemented. In this version, all registered users are allowed to do everything but
+ * in future deployments should be restricted.
+ */
+
 @Entity
 public class User {
 	@Id
@@ -55,7 +63,6 @@ public class User {
 
 	public User() {
 		super();
-		// 
 	}
 
 	@Override

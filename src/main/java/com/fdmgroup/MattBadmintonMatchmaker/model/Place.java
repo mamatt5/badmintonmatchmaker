@@ -4,6 +4,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 
+/**
+ * This entity essentially holds the label for the social session entity. It restricts user
+ * input to only assign a social session to places/events registered in the database for easier
+ * filtering of events in the future.
+ */
+
 @Entity
 public class Place {
 	
@@ -31,7 +37,6 @@ public class Place {
 	}
 	public Place() {
 		super();
-		// 
 	}
 
 	

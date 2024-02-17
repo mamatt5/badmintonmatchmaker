@@ -11,6 +11,11 @@ import com.fdmgroup.MattBadmintonMatchmaker.exceptions.DuplicateException;
 import com.fdmgroup.MattBadmintonMatchmaker.exceptions.NotFoundException;
 import com.fdmgroup.MattBadmintonMatchmaker.model.User;
 
+/**
+ * This takes in PasswordEncoder to encode the user password when registering a user entity. Otherwise 
+ * the database would hold the actual string input of the user and would pose security issues.
+ */
+
 @Service
 public class UserService {
 	private UserRepository userRepository;
@@ -23,7 +28,6 @@ public class UserService {
 		this.encoder = encoder;
 	}
 	
-
 	public List<User> findAllUsers() {
 		return this.userRepository.findAll();
 	}
@@ -43,7 +47,6 @@ public class UserService {
 	}
 
 	public void deleteByUsername(String username) {
-		
 		if (this.userRepository.existsById(username)) {
 			userRepository.deleteById(username);
 			

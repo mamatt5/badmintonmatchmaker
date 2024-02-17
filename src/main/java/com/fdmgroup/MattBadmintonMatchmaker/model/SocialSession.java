@@ -12,6 +12,13 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 
+/**
+ * This entity holds the social session information. Inside this entity is a list of players entities
+ * registered to play for each social session. Also stored is the place entity for which the social
+ * session is held. numberCourts is an unused attribute but is crucial for record keeping for organizers
+ * in the future.
+ */
+
 @Entity
 public class SocialSession {
 	
@@ -83,7 +90,6 @@ public class SocialSession {
 
 	public SocialSession() {
 		super();
-		// 
 	}
 
 	@Override

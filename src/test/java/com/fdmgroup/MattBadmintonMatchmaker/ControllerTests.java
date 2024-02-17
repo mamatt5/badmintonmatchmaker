@@ -68,7 +68,7 @@ public class ControllerTests {
 	@BeforeEach
 	void setup() {
 		bracketController = new BracketController(bracketServiceMock);
-		gameController = new GameController(gameServiceMock);
+		gameController = new GameController(gameServiceMock, matchMakerServiceMock, socialSessionServiceMock);
 		placeController = new PlaceController(placeServiceMock);
 		playerController = new PlayerController(playerServiceMock);
 		socialSessionController = new SocialSessionController(socialSessionServiceMock);
@@ -457,6 +457,54 @@ public class ControllerTests {
 		assertEquals(games, gameController.getGames());
 		verify(gameServiceMock).findAll();
 
+	}
+	
+	@Test
+	public void game_controller_gets_games_on_session_id() {
+		Bracket bracketE = new Bracket(5, 'E');
+		Place alphaAuburn = 	new Place("Alpha Badminton Center, Auburn");
+		Place roketto=			new Place("Roketto Badminton Center");
+
+		Player player1 = new Player("Angel", 	"Ramos", bracketE);
+		Player player2 = new Player("Anjo", 	"Alfon", bracketE);
+		Player player3 = new Player("Karen", 	"Vega", bracketE);
+		Player player4 = new Player("Matt", 	"Chanco", bracketE);
+
+		SocialSession session1 = new SocialSession(LocalDate.of(2023, 12, 22), 5, alphaAuburn);
+		SocialSession session2 = new SocialSession(LocalDate.of(2023, 12, 22), 5, roketto);
+		session1.setId(1);
+		session2.setId(2);
+		
+		Game game1 = new Game( Arrays.asList(player1,player2,player3,player4), session1);
+		Game game2 = new Game( Arrays.asList(player1,player2,player3,player4), session1);
+		Game game3 = new Game( Arrays.asList(player1,player2,player3,player4), session2);
+		Game game4 = new Game( Arrays.asList(player1,player2,player3,player4), session2);
+		Game game5 = new Game( Arrays.asList(player1,player2,player3,player4), session2);
+
+		game1.setId(1);
+		game2.setId(2);
+		game3.setId(3);
+		game4.setId(4);
+		game5.setId(5);
+
+		ArrayList<Game> games1 = new ArrayList<Game>();
+		games1.add(game1);
+		games1.add(game2);
+		
+		ArrayList<Game> games2 = new ArrayList<Game>();
+		games2.add(game3);
+		games2.add(game4);
+		games2.add(game5);
+		
+		ArrayList<Game> allGames = new ArrayList<Game>();
+		allGames.addAll(games1);
+		allGames.addAll(games2);
+		
+		when(gameServiceMock.findBySessionId(1)).thenReturn(games1);
+		when(gameServiceMock.findBySessionId(2)).thenReturn(games2);
+		
+		assertEquals(games1, gameController.findBySessionId(1));
+		assertEquals(games2, gameController.findBySessionId(2));
 	}
 
 	@Test
